@@ -1,117 +1,134 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { Star, Quote, CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
+import React from "react";
+import {
+  Star,
+  Quote,
+  CheckCircle2,
+} from "lucide-react";
 import { PATIENT_TESTIMONIALS } from "@/lib/constants";
 
 export default function TestimonialsSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  const [active, setActive] = useState(0);
-
-  const prev = () => setActive((i) => (i === 0 ? PATIENT_TESTIMONIALS.length - 1 : i - 1));
-  const next = () => setActive((i) => (i === PATIENT_TESTIMONIALS.length - 1 ? 0 : i + 1));
-
   return (
-    <section id="testimonials" className="relative py-16 lg:py-20 overflow-hidden" ref={ref}
-      style={{ background: "linear-gradient(180deg, #f8fafc 0%, #f0fdfa 100%)" }}
+    <section
+      id="testimonials"
+      className="w-full max-w-full overflow-hidden bg-white py-16 lg:py-20"
     >
-      {/* Background decoration */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-primary-200 to-transparent" />
-        <div className="absolute -left-24 top-1/2 h-[400px] w-[400px] rounded-full bg-primary-100/50 blur-3xl" />
-      </div>
-
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: [0.22,1,0.36,1] }}
-          className="mb-10 text-center"
-        >
-          <span className="badge-pill bg-primary-100 text-primary-700 mb-4">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Section heading */}
+        <div className="mb-10 min-w-0 text-center">
+          <span className="testimonials-badge mb-4 inline-flex max-w-full items-center rounded-full px-4 py-2 text-sm font-bold">
             Patient Testimonials
           </span>
-          <h2 className="text-3xl font-extrabold tracking-tight text-dark sm:text-4xl lg:text-5xl">
+
+          <h2 className="break-words font-heading text-3xl font-extrabold tracking-tight text-dark sm:text-4xl lg:text-5xl">
             Trusted by{" "}
-            <span style={{ color: "#0f766e" }}>Families</span>{" "}
+            <span className="text-primary-600">Families</span>{" "}
             Across Sangareddy
           </h2>
-          <p className="mt-4 mx-auto max-w-xl text-base text-slate-600 sm:text-lg">
-            Real stories of healing, safe childbirth, and successful recoveries.
-          </p>
-        </motion.div>
 
-        {/* Grid: 3 per row on desktop */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {PATIENT_TESTIMONIALS.map((item, idx) => (
-            <motion.div
+          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
+            Real stories of healing, safe childbirth, and
+            successful recoveries.
+          </p>
+        </div>
+
+        {/* Patient review cards */}
+        <div className="grid w-full min-w-0 grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {PATIENT_TESTIMONIALS.map((item) => (
+            <article
               key={item.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, ease: [0.22,1,0.36,1], delay: idx * 0.07 }}
-              className="card-elevated flex flex-col justify-between p-6"
+              className="testimonial-card flex min-w-0 flex-col justify-between overflow-hidden rounded-2xl p-5 shadow-sm sm:p-6"
             >
-              <div className="space-y-4">
-                {/* Stars + quote icon */}
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-0.5">
-                    {[...Array(item.rating)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-highlight text-highlight" />
-                    ))}
+              <div className="min-w-0 space-y-4">
+                {/* Rating and quote */}
+                <div className="flex items-center justify-between gap-3">
+                  <div
+                    className="flex flex-wrap gap-0.5"
+                    aria-label={`${item.rating} out of 5 stars`}
+                  >
+                    {Array.from(
+                      { length: item.rating },
+                      (_, index) => (
+                        <Star
+                          key={index}
+                          aria-hidden="true"
+                          className="testimonial-star h-4 w-4 shrink-0"
+                        />
+                      )
+                    )}
                   </div>
-                  <Quote className="h-8 w-8 text-primary-100" />
+
+                  <Quote
+                    aria-hidden="true"
+                    className="testimonial-quote-icon h-7 w-7 shrink-0 sm:h-8 sm:w-8"
+                  />
                 </div>
 
-                <p className="text-xs font-bold uppercase tracking-wider text-primary-600">
+                {/* Review highlight */}
+                <p className="testimonial-highlight break-words text-xs font-bold uppercase leading-relaxed tracking-wider [overflow-wrap:anywhere]">
                   {item.highlight}
                 </p>
 
-                <p className="text-sm text-slate-600 leading-relaxed italic">
+                {/* Review text */}
+                <p className="break-words text-sm italic leading-7 text-slate-600 [overflow-wrap:anywhere]">
                   &ldquo;{item.comment}&rdquo;
                 </p>
               </div>
 
-              {/* Author */}
-              <div className="mt-5 flex items-center gap-3 border-t border-slate-100 pt-5">
+              {/* Patient details */}
+              <div className="mt-5 flex min-w-0 items-center gap-3 border-t border-slate-200/60 pt-5">
                 <div
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
-                  style={{ background: "linear-gradient(135deg, #0f766e 0%, #0f172a 100%)" }}
+                  aria-hidden="true"
+                  className="testimonial-avatar flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-bold"
                 >
                   {item.name.charAt(0)}
                 </div>
-                <div>
-                  <h4 className="flex items-center gap-1 text-sm font-bold text-dark">
-                    {item.name}
-                    <CheckCircle2 className="h-3.5 w-3.5 text-primary-500" />
-                  </h4>
-                  <p className="text-xs text-slate-400">{item.location}</p>
+
+                <div className="min-w-0 flex-1">
+                  <h3 className="flex min-w-0 flex-wrap items-center gap-1.5 break-words text-sm font-bold leading-snug text-dark [overflow-wrap:anywhere]">
+                    <span>{item.name}</span>
+                    <CheckCircle2
+                      aria-label="Verified patient"
+                      className="testimonial-verified-icon h-4 w-4 shrink-0"
+                    />
+                  </h3>
+
+                  <p className="mt-1 break-words text-sm text-slate-500 [overflow-wrap:anywhere]">
+                    {item.location}
+                  </p>
                 </div>
               </div>
-            </motion.div>
+            </article>
           ))}
         </div>
 
         {/* Trust summary */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-12 flex justify-center"
-        >
-          <div className="inline-flex flex-wrap items-center justify-center gap-3 rounded-full border border-slate-200 bg-white px-6 py-3 text-xs font-semibold text-slate-700 shadow-sm sm:text-sm">
-            <span className="flex items-center gap-1 text-highlight">
-              <Star className="h-4 w-4 fill-highlight text-highlight" />
+        <div className="mt-12 flex min-w-0 justify-center">
+          <div className="testimonial-summary-pill flex w-fit max-w-full flex-wrap items-center justify-center gap-x-3 gap-y-2 rounded-2xl px-4 py-4 text-center text-xs font-semibold shadow-sm sm:rounded-full sm:px-6 sm:py-3 sm:text-sm">
+            <span className="flex items-center gap-1 text-secondary">
+              <Star
+                aria-hidden="true"
+                className="testimonial-star h-4 w-4 shrink-0"
+              />
               <strong>4.9 / 5.0 Rating</strong>
             </span>
-            <span className="text-slate-300">•</span>
+
+            <span className="hidden text-slate-300 sm:inline">
+              •
+            </span>
+
             <span>2,500+ Verified Consultations</span>
-            <span className="text-slate-300">•</span>
-            <span className="font-bold text-primary-700">100% Patient Privacy</span>
+
+            <span className="hidden text-slate-300 sm:inline">
+              •
+            </span>
+
+            <span className="font-bold text-primary-600">
+              100% Patient Privacy
+            </span>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

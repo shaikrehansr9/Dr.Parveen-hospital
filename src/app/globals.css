@@ -2,156 +2,254 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Geist";
-  src: url("./fonts/GeistVF.woff") format("woff");
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-}
+/* ╔═══════════════════════════════════════════════════════════════════════════╗
+   ║                     DR. PARWEEN'S HOSPITAL                              ║
+   ║                     Master Global Design System                         ║
+   ╠═══════════════════════════════════════════════════════════════════════════╣
+   ║                                                                         ║
+   ║  CENTRAL DESIGN SYSTEM & COMPONENT STYLING                              ║
+   ║  ─────────────────────────────────────────                              ║
+   ║  To change site-wide colors, edit Section 1 (:root variables).          ║
+   ║  Every component below is cleanly mapped to these design tokens.        ║
+   ║                                                                         ║
+   ║  TABLE OF CONTENTS                                                      ║
+   ║  ─────────────────                                                      ║
+   ║   1.  MASTER BRAND DESIGN TOKENS (Colors, Tints, Fonts, Radii, Shadows) ║
+   ║   2.  GLOBAL BASE STYLES & TYPOGRAPHY                                   ║
+   ║   3.  BRAND TEXT & SURFACE COLOR UTILITIES                              ║
+   ║   4.  PRIMARY COLOR SYSTEM & UTILITY OVERRIDES                          ║
+   ║   5.  GLASSMORPHISM & SURFACE EFFECTS                                   ║
+   ║   6.  MESH GRADIENTS & DECORATIVE BACKGROUNDS                           ║
+   ║   7.  CUSTOM SCROLLBAR                                                  ║
+   ║   8.  ANIMATIONS & KEYFRAMES (Shimmer, Float, Pulse)                    ║
+   ║   9.  ACCESSIBILITY & FOCUS STATES                                      ║
+   ║  10.  NAVBAR (Desktop, Mobile Drawer & Services Dropdown)               ║
+   ║  11.  SECTION: HERO                                                     ║
+   ║  12.  SECTION: ABOUT                                                    ║
+   ║  13.  SECTION: SERVICES                                                 ║
+   ║  14.  SECTION: WHY CHOOSE US                                            ║
+   ║  15.  SECTION: SPECIALIST DOCTORS                                       ║
+   ║  16.  SECTION: PATIENT TESTIMONIALS                                     ║
+   ║  17.  SECTION: FREQUENTLY ASKED QUESTIONS (FAQ)                         ║
+   ║  18.  SECTION: CONTACT & APPOINTMENT BOOKING                            ║
+   ║  19.  SECTION: FOOTER                                                   ║
+   ║  20.  SECTION: EMERGENCY ACTION BAR (MOBILE)                            ║
+   ║  21.  UI COMPONENTS (Buttons, Badges, Cards, Inputs, Modals)            ║
+   ║  22.  RESPONSIVE BREAKPOINTS & LAYOUT                                   ║
+   ║  23.  REDUCED MOTION PREFERENCES                                        ║
+   ║                                                                         ║
+   ╚═══════════════════════════════════════════════════════════════════════════╝ */
+
+
+/* =========================================================================
+   1. MASTER BRAND DESIGN TOKENS (Colors, Tints, Fonts, Radii, Shadows)
+   ─────────────────────────────────────────────────────────────────────────
+   ★ EDIT COLORS HERE: Changing these variables rethemes the entire site! ★
+   ========================================================================= */
 
 :root {
-  --background: #ffffff;
-  --foreground: #10243a;
+  /* ── Core Brand Palette ──────────────────────────────────────────────── */
+  --brand-blue:          #1866AE; /* Primary Hospital Blue */
+  --brand-blue-hover:    #124A80; /* Deep blue for hovers & dark gradients */
+  --brand-pink:          #E1194D; /* Secondary / Emergency / Highlight Pink */
+  --brand-pink-hover:    #BE1742; /* Darker pink for active / hover states */
+  --brand-pink-light:    #FF7896; /* Subtle bright pink for text highlights */
+  --brand-slate:         #48576C; /* Neutral body text & slate borders */
+  --brand-black:         #000000; /* Headings & high-contrast deep black */
+  --brand-white:         #FFFFFF; /* Pure background & cards */
+
+  /* ── Semantic Color Aliases ──────────────────────────────────────────── */
+  --color-primary:       var(--brand-blue);
+  --color-secondary:     var(--brand-pink);
+  --color-accent:        var(--brand-pink);
+  --color-emergency:     var(--brand-pink);
+  --color-text:          var(--brand-black);
+  --color-text-muted:    var(--brand-slate);
+  --color-background:    var(--brand-white);
+  --color-surface:       var(--brand-white);
+  --focus-ring:          var(--brand-blue);
+
+  /* ── Soft Background Tints ───────────────────────────────────────────── */
+  --bg-blue-soft:        #EAF2FA; /* Gentle blue container tint */
+  --bg-pink-soft:        #FFF1F4; /* Gentle pink container tint */
+  --bg-slate-soft:       #F8FAFC; /* Neutral slate-50 background */
+  --border-pink-soft:    #F8B4C4; /* Soft pink alert border */
+  --text-pink-error:     #BE1742; /* Alert error text */
+
+  /* ── Opacity Scales ─────────────────────────────────────────────────── */
+  --primary-4:           rgba(24, 102, 174, 0.04);
+  --primary-8:           rgba(24, 102, 174, 0.08);
+  --primary-9:           rgba(24, 102, 174, 0.09);
+  --primary-12:          rgba(24, 102, 174, 0.12);
+  --primary-15:          rgba(24, 102, 174, 0.15);
+  --primary-16:          rgba(24, 102, 174, 0.16);
+  --primary-20:          rgba(24, 102, 174, 0.20);
+  --primary-25:          rgba(24, 102, 174, 0.25);
+  --primary-30:          rgba(24, 102, 174, 0.30);
+  --primary-45:          rgba(24, 102, 174, 0.045);
+  --primary-50:          rgba(24, 102, 174, 0.50);
+
+  --accent-2:            rgba(225, 25, 77, 0.025);
+  --accent-4:            rgba(225, 25, 77, 0.04);
+  --accent-5:            rgba(225, 25, 77, 0.05);
+  --accent-6:            rgba(225, 25, 77, 0.06);
+  --accent-7:            rgba(225, 25, 77, 0.07);
+  --accent-8:            rgba(225, 25, 77, 0.08);
+  --accent-10:           rgba(225, 25, 77, 0.10);
+  --accent-12:           rgba(225, 25, 77, 0.12);
+  --accent-15:           rgba(225, 25, 77, 0.15);
+  --accent-20:           rgba(225, 25, 77, 0.20);
+  --accent-25:           rgba(225, 25, 77, 0.25);
+  --accent-30:           rgba(225, 25, 77, 0.30);
+  --accent-35:           rgba(225, 25, 77, 0.35);
+  --accent-40:           rgba(225, 25, 77, 0.40);
+  --accent-65:           rgba(225, 25, 77, 0.65);
+
+  --slate-4:             rgba(72, 87, 108, 0.04);
+  --slate-8:             rgba(72, 87, 108, 0.08);
+  --slate-10:            rgba(72, 87, 108, 0.10);
+  --slate-12:            rgba(72, 87, 108, 0.12);
+  --slate-15:            rgba(72, 87, 108, 0.15);
+  --slate-16:            rgba(72, 87, 108, 0.16);
+  --slate-17:            rgba(72, 87, 108, 0.17);
+  --slate-18:            rgba(72, 87, 108, 0.18);
+  --slate-20:            rgba(72, 87, 108, 0.20);
+  --slate-25:            rgba(72, 87, 108, 0.25);
+  --slate-30:            rgba(72, 87, 108, 0.30);
+  --slate-35:            rgba(72, 87, 108, 0.35);
+  --slate-40:            rgba(72, 87, 108, 0.40);
+
+  --white-10:            rgba(255, 255, 255, 0.10);
+  --white-15:            rgba(255, 255, 255, 0.15);
+  --white-20:            rgba(255, 255, 255, 0.20);
+  --white-30:            rgba(255, 255, 255, 0.30);
+  --white-40:            rgba(255, 255, 255, 0.40);
+  --white-50:            rgba(255, 255, 255, 0.50);
+  --white-60:            rgba(255, 255, 255, 0.60);
+  --white-80:            rgba(255, 255, 255, 0.80);
+  --white-82:            rgba(255, 255, 255, 0.82);
+  --white-85:            rgba(255, 255, 255, 0.85);
+  --white-90:            rgba(255, 255, 255, 0.90);
+  --white-95:            rgba(255, 255, 255, 0.95);
+  --black-50:            rgba(0, 0, 0, 0.50);
+  --black-60:            rgba(0, 0, 0, 0.60);
+  --black-85:            rgba(0, 0, 0, 0.85);
+  --black-88:            rgba(0, 0, 0, 0.88);
+  --black-90:            rgba(0, 0, 0, 0.90);
+  --black-95:            rgba(0, 0, 0, 0.95);
+
+  /* ── Typography & Font Stacks ────────────────────────────────────────── */
+  --font-fallback:       "Geist", "Segoe UI", Arial, sans-serif;
+  --text-base:           17px;
+  --text-xs:             0.875rem;
+  --text-sm:             1rem;
+  --text-tiny:           0.8125rem;
+  --text-emergency:      0.75rem;
+
+  /* ── Layout & Radii ──────────────────────────────────────────────────── */
+  --max-width:           1440px;
+  --radius-sm:           10px;
+  --radius-md:           12px;
+  --radius-lg:           16px;
+  --radius-xl:           20px;
+  --radius-2xl:          24px;
+  --radius-full:         9999px;
+
+  /* ── Transitions ─────────────────────────────────────────────────────── */
+  --transition-fast:     180ms ease;
+  --transition-normal:   220ms ease;
+  --transition-slow:     350ms ease;
+
+  /* ── Shadows ─────────────────────────────────────────────────────────── */
+  --shadow-navbar:       0 2px 8px rgba(0, 0, 0, 0.025);
+  --shadow-navbar-scroll: 0 6px 22px rgba(0, 0, 0, 0.075);
+  --shadow-dropdown:     0 18px 42px rgba(0, 0, 0, 0.12);
+  --shadow-drawer:       -12px 0 36px rgba(0, 0, 0, 0.12);
+  --shadow-card:         0 8px 24px -12px rgba(0, 0, 0, 0.18);
+  --shadow-card-hover:   0 26px 54px -12px rgba(0, 0, 0, 0.22);
 }
 
+
+/* =========================================================================
+   2. GLOBAL BASE STYLES & TYPOGRAPHY
+   ========================================================================= */
+
 html {
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
+  scroll-padding-top: 86px;
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: "Geist", "Segoe UI", Arial, sans-serif;
+  color: var(--brand-black);
+  background: var(--brand-white);
+  font-family: var(--font-body), var(--font-fallback);
   overflow-x: hidden;
-  font-feature-settings: "ss01" on, "cv02", "cv03", "cv04", "cv11";
-}
-
-/* Glassmorphism effects */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-}
-
-.glass-panel-dark {
-  background: rgba(10, 22, 40, 0.88);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.glass-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-}
-
-/* Luxury medical mesh gradient */
-.mesh-gradient-bg {
-  background-color: #f8fbfe;
-  background-image: 
-    radial-gradient(at 10% 10%, rgba(63, 182, 224, 0.08) 0px, transparent 50%),
-    radial-gradient(at 90% 15%, rgba(13, 148, 136, 0.07) 0px, transparent 50%),
-    radial-gradient(at 50% 80%, rgba(2, 132, 199, 0.06) 0px, transparent 50%);
-}
-
-.mesh-gradient-dark {
-  background-color: #071527;
-  background-image: 
-    radial-gradient(at 10% 20%, rgba(63, 182, 224, 0.15) 0px, transparent 50%),
-    radial-gradient(at 85% 30%, rgba(20, 184, 166, 0.12) 0px, transparent 50%),
-    radial-gradient(at 50% 90%, rgba(2, 132, 199, 0.1) 0px, transparent 50%);
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #3FB6E0;
-}
-
-/* Shimmer animation */
-@keyframes shimmer {
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-.animate-shimmer {
-  position: relative;
-  overflow: hidden;
-}
-.animate-shimmer::after {
-  position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  transform: translateX(-100%);
-  background-image: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0,
-    rgba(255, 255, 255, 0.2) 20%,
-    rgba(255, 255, 255, 0.5) 60%,
-    rgba(255, 255, 255, 0)
-  );
-  animation: shimmer 2.5s infinite;
-  content: '';
-}
-
-
-/* Readability, keyboard access and motion preferences */
-:root {
-  color-scheme: light;
-  --focus-ring: #075985;
-  --foreground: #10243a;
-}
-body {
-  font-size: 17px;
+  font-size: var(--text-base);
   line-height: 1.6;
+  font-feature-settings: "ss01" on, "cv02", "cv03", "cv04", "cv11";
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), var(--font-fallback);
+  color: var(--brand-black);
   line-height: 1.15;
   letter-spacing: -0.025em;
   text-wrap: balance;
 }
+
+p, li {
+  text-wrap: pretty;
+}
+
 .text-xs {
-  font-size: 0.875rem;
+  font-size: var(--text-xs);
   line-height: 1.5;
 }
+
 .text-sm {
-  font-size: 1rem;
+  font-size: var(--text-sm);
   line-height: 1.6;
 }
+
 [class~="text-[10px]"],
 [class~="text-[11px]"] {
-  font-size: 0.8125rem;
+  font-size: var(--text-tiny);
   line-height: 1.45;
 }
-.text-slate-300 {
-  color: #334155;
+
+img {
+  max-width: 100%;
 }
-.text-slate-400 {
-  color: #475569;
+
+
+/* =========================================================================
+   3. BRAND TEXT & SURFACE COLOR UTILITIES
+   ========================================================================= */
+
+.text-dark {
+  color: var(--brand-black);
 }
+
+.text-slate-300,
+.text-slate-400,
+.text-slate-500,
+.text-slate-600,
+.text-slate-700 {
+  color: var(--brand-slate);
+}
+
 [class~="placeholder:text-slate-400"]::placeholder {
-  color: #475569;
+  color: var(--brand-slate);
   opacity: 1;
 }
+
 footer .text-slate-300,
 footer .text-slate-400,
+footer .text-slate-500,
 .bg-slate-900 .text-slate-300,
 .bg-slate-900 .text-slate-400,
 .bg-slate-800 .text-slate-300,
@@ -168,93 +266,1725 @@ footer .text-slate-400,
 .bg-dark-gradient .text-slate-400,
 .mesh-gradient-dark .text-slate-300,
 .mesh-gradient-dark .text-slate-400 {
-  color: #cbd5e1;
-}
-p, li {
-  text-wrap: pretty;
+  color: var(--white-82);
 }
 
-/* Keep compact mobile emergency actions legible without forcing their labels to wrap. */
+
+/* =========================================================================
+   4. PRIMARY COLOR SYSTEM & UTILITY OVERRIDES
+   ========================================================================= */
+
+.bg-primary-50 {
+  background-color: var(--primary-4) !important;
+}
+
+.bg-primary-100 {
+  background-color: var(--primary-9) !important;
+}
+
+.bg-primary-500,
+.bg-primary-600,
+.bg-primary-700 {
+  background-color: var(--brand-blue) !important;
+}
+
+.text-primary-500,
+.text-primary-600,
+.text-primary-700 {
+  color: var(--brand-blue) !important;
+}
+
+.border-primary-200 {
+  border-color: var(--primary-20) !important;
+}
+
+.hover\:text-primary-700:hover {
+  color: var(--brand-pink) !important;
+}
+
+.hover\:bg-primary-700:hover {
+  background-color: var(--brand-pink) !important;
+}
+
+
+/* =========================================================================
+   5. GLASSMORPHISM & SURFACE EFFECTS
+   ========================================================================= */
+
+.glass-panel {
+  background: var(--white-85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--white-60);
+}
+
+.glass-panel-dark {
+  background: var(--black-88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--white-10);
+}
+
+.glass-card {
+  background: var(--white-95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--slate-20);
+}
+
+
+/* =========================================================================
+   6. MESH GRADIENTS & DECORATIVE BACKGROUNDS
+   ========================================================================= */
+
+.mesh-gradient-bg {
+  background-color: var(--brand-white);
+  background-image:
+    radial-gradient(at 10% 10%, var(--primary-8) 0, transparent 50%),
+    radial-gradient(at 90% 15%, var(--accent-5) 0, transparent 50%),
+    radial-gradient(at 50% 80%, var(--slate-4) 0, transparent 50%);
+}
+
+.mesh-gradient-dark {
+  background-color: var(--brand-black);
+  background-image:
+    radial-gradient(at 10% 20%, var(--primary-20) 0, transparent 50%),
+    radial-gradient(at 85% 30%, var(--accent-12) 0, transparent 50%),
+    radial-gradient(at 50% 90%, var(--slate-15) 0, transparent 50%);
+}
+
+
+/* =========================================================================
+   7. CUSTOM SCROLLBAR
+   ========================================================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--brand-white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--slate-40);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-blue);
+}
+
+
+/* =========================================================================
+   8. ANIMATIONS & KEYFRAMES (Shimmer, Float, Pulse)
+   ========================================================================= */
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-shimmer::after {
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    var(--white-20) 20%,
+    var(--white-50) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 2.5s infinite;
+  content: "";
+}
+
+
+/* =========================================================================
+   9. ACCESSIBILITY & FOCUS STATES
+   ========================================================================= */
+
+:root {
+  color-scheme: light;
+}
+
 .emergency-action-bar [class~="text-[11px]"] {
-  font-size: 0.75rem;
+  font-size: var(--text-emergency);
   line-height: 1.25;
 }
 
 a, button, input, select, textarea, [role="button"] {
   touch-action: manipulation;
 }
-a:focus-visible, button:focus-visible, input:focus-visible,
-select:focus-visible, textarea:focus-visible, [role="button"]:focus-visible {
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 3px;
 }
+
 section[id], main[id] {
-  scroll-margin-top: 5rem;
-}
-img {
-  max-width: 100%;
+  scroll-margin-top: 6rem;
 }
 
-.hero-section {
-  background:
-    radial-gradient(ellipse at 84% 14%, rgba(191, 229, 244, 0.5), transparent 34%),
-    linear-gradient(180deg, #f7fbfd 0%, #ffffff 92%);
+
+/* =========================================================================
+   10. NAVBAR (Desktop, Mobile Drawer & Services Dropdown)
+   ========================================================================= */
+
+.hospital-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  width: 100%;
+  background: var(--brand-white);
+  border-bottom: 1px solid var(--slate-16);
+  box-shadow: var(--shadow-navbar);
+  transition: box-shadow var(--transition-normal);
 }
 
-.hero-bg {
-  background:
-    radial-gradient(ellipse at 84% 14%, rgba(191, 229, 244, 0.42), transparent 34%),
-    linear-gradient(180deg, #f7fbfd 0%, #ffffff 92%);
+.hospital-navbar.is-scrolled {
+  box-shadow: var(--shadow-navbar-scroll);
 }
 
-.hero-orb {
+.hospital-navbar__container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.hospital-navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  height: 88px;
+  min-height: 88px;
+}
+
+.hospital-navbar__logo {
+  display: flex;
+  flex: 0 0 218px;
+  align-items: center;
+  min-width: 0;
+}
+
+.hospital-navbar__logo-frame {
+  position: relative;
+  width: 100%;
+  height: 66px;
+}
+
+.hospital-navbar__logo-image {
+  object-fit: contain;
+  object-position: left center;
+}
+
+.hospital-navbar__logo-link {
+  display: block;
+  width: 100%;
+  transition: opacity var(--transition-fast);
+}
+
+.hospital-navbar__logo-link:hover {
+  opacity: 0.88;
+}
+
+.hospital-navbar__desktop-nav {
+  display: none;
+  flex: 1 1 auto;
+  align-items: stretch;
+  justify-content: center;
+  min-width: 0;
+  height: 50%;
+  gap: 3px;
+}
+
+.hospital-navbar__link {
+  position: relative;
+  display: inline-flex;
+  flex: 0 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  height: 100%;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  color: var(--brand-slate);
+  font-family: var(--font-heading), var(--font-fallback);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.hospital-navbar__link:hover {
+  color: white;
+}
+/* .hospital-navbar__link.is-active {
+  color: var(--brand-pink);
+
+} */
+.hospital-navbar__link:hover {
+  background-color: var(--brand-pink);
+  
+}
+
+.hospital-navbar__link:focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: -3px;
+}
+
+.hospital-navbar__link::after {
   position: absolute;
+  right: 12px;
+  bottom: 0;
+  left: 12px;
+  height: 3px;
+  border-radius: var(--radius-full);
+  background: var(--brand-pink);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--transition-normal);
+}
+
+.hospital-navbar__link:hover::after,
+.hospital-navbar__link.is-active::after {
+  transform: scaleX(1);
+}
+
+.hospital-navbar__link-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: transform var(--transition-normal);
+}
+
+.hospital-navbar__link-icon.is-open {
+  transform: rotate(180deg);
+}
+
+.hospital-navbar__booking {
+  display: none;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 52px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--brand-pink);
+  color: var(--brand-white);
+  font-family: var(--font-heading), var(--font-fallback);
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.3;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.hospital-navbar__booking:hover {
+  background: var(--brand-blue);
+  box-shadow: 0 7px 18px rgba(24, 102, 174, 0.2);
+  transform: translateY(-1px);
+}
+
+.hospital-navbar__booking:active {
+  transform: translateY(0);
+}
+
+.hospital-navbar__menu-toggle {
+  display: flex;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--primary-20);
+  border-radius: var(--radius-md);
+  background: var(--brand-white);
+  color: var(--brand-blue);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.hospital-navbar__menu-toggle:hover {
+  border-color: var(--accent-30);
+  background: var(--accent-4);
+  color: var(--brand-pink);
+}
+
+.hospital-navbar__menu-toggle:focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 3px;
+}
+
+.hospital-navbar__accent {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--brand-blue), var(--brand-pink));
+  opacity: 0;
   pointer-events: none;
-  border-radius: 9999px;
-  filter: blur(1px);
+  transition: opacity var(--transition-fast);
 }
 
-.hero-orb-one {
-  top: 9rem;
-  right: -10rem;
-  width: 23rem;
-  height: 23rem;
-  border: 1px solid rgba(2, 132, 199, 0.1);
+.hospital-navbar.is-scrolled .hospital-navbar__accent {
+  opacity: 1;
 }
 
-.hero-orb-two {
-  top: 12rem;
-  right: -7rem;
-  width: 17rem;
-  height: 17rem;
-  border: 1px solid rgba(2, 132, 199, 0.08);
+.hospital-navbar__services {
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+  height: 100%;
+  align-items: stretch;
 }
 
-.hero-image-frame {
-  box-shadow: 0 28px 65px -32px rgba(15, 35, 58, 0.48);
+.hospital-navbar__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  width: min(420px, calc(100vw - 32px));
+  overflow: hidden;
+  border: 1px solid var(--slate-17);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  background: var(--brand-white);
+  color: var(--brand-slate);
+  box-shadow: var(--shadow-dropdown);
 }
 
-.hero-image-frame img {
-  object-position: center 28%;
+.hospital-navbar__dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--slate-12);
+  background: var(--primary-45);
 }
 
-.home-page section:not(.hero-section) h2 {
-  font-size: clamp(2.25rem, 4vw, 3.5rem);
-  line-height: 1.08;
+.hospital-navbar__dropdown-heading {
+  color: var(--brand-black);
+  font-family: var(--font-heading), var(--font-fallback);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.4;
 }
 
-.home-page section p.text-xs {
-  font-size: 0.875rem;
+.hospital-navbar__dropdown-subheading {
+  margin-top: 4px;
+  color: var(--brand-slate);
+  font-size: 14px;
   line-height: 1.5;
 }
 
-.home-page section p.text-sm {
-  font-size: 1rem;
-  line-height: 1.65;
+.hospital-navbar__dropdown-all {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 4px;
+  color: var(--brand-blue);
+  font-size: 14px;
+  font-weight: 800;
+  transition: color var(--transition-fast);
 }
 
+.hospital-navbar__dropdown-all:hover {
+  color: var(--brand-pink);
+}
+
+.hospital-navbar__dropdown-list {
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.hospital-navbar__service-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast);
+}
+
+.hospital-navbar__service-link:hover,
+.hospital-navbar__service-link.is-active {
+  background: var(--primary-45);
+}
+
+.hospital-navbar__service-icon {
+  display: flex;
+  flex: 0 0 42px;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  background: var(--primary-9);
+  color: var(--brand-blue);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.hospital-navbar__service-link:hover .hospital-navbar__service-icon,
+.hospital-navbar__service-link.is-active .hospital-navbar__service-icon {
+  background: var(--brand-blue);
+  color: var(--brand-white);
+}
+
+.hospital-navbar__service-title {
+  color: var(--brand-black);
+  font-family: var(--font-heading), var(--font-fallback);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.45;
+  transition: color var(--transition-fast);
+}
+
+.hospital-navbar__service-link:hover .hospital-navbar__service-title {
+  color: var(--brand-pink);
+}
+
+.hospital-navbar__service-description {
+  margin-top: 5px;
+  color: var(--brand-slate);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* Mobile Drawer */
+.hospital-mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hospital-mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--black-50);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.hospital-mobile-drawer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 380px;
+  height: 100%;
+  overflow-y: auto;
+  background: var(--brand-white);
+  box-shadow: var(--shadow-drawer);
+}
+
+.hospital-mobile-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 82px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--slate-15);
+}
+
+.hospital-mobile-drawer__logo {
+  position: relative;
+  display: block;
+  flex: 0 1 200px;
+  width: 200px;
+  height: 58px;
+}
+
+.hospital-mobile-drawer__close {
+  display: flex;
+  flex: 0 0 44px;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--brand-slate);
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.hospital-mobile-drawer__close:hover {
+  background: var(--accent-8);
+  color: var(--brand-pink);
+}
+
+.hospital-mobile-drawer__emergency {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--accent-15);
+  background: var(--accent-5);
+}
+
+.hospital-mobile-drawer__emergency-label {
+  color: var(--brand-pink);
+  font-family: var(--font-heading), var(--font-fallback);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.hospital-mobile-drawer__call-now {
+  flex-shrink: 0;
+  color: var(--brand-pink);
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.hospital-mobile-drawer__nav {
+  flex: 1 0 auto;
+  padding: 16px;
+}
+
+.hospital-mobile-drawer__nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hospital-mobile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 13px 16px;
+  border-radius: var(--radius-md);
+  color: var(--brand-slate);
+  font-family: var(--font-heading), var(--font-fallback);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.hospital-mobile-link:hover {
+  background: var(--primary-4);
+  color: var(--brand-blue);
+}
+
+.hospital-mobile-link.is-active {
+  background: var(--accent-7);
+  color: var(--brand-pink);
+  box-shadow: inset 0 0 0 1px var(--accent-20);
+}
+
+.hospital-mobile-services {
+  overflow: hidden;
+  border: 1px solid var(--slate-18);
+  border-radius: var(--radius-md);
+}
+
+.hospital-mobile-services__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 12px 16px;
+  background: var(--primary-45);
+  color: var(--brand-slate);
+  font-family: var(--font-heading), var(--font-fallback);
+  font-size: 18px;
+  font-weight: 800;
+  transition: color var(--transition-fast);
+}
+
+.hospital-mobile-services__heading:hover,
+.hospital-mobile-services__heading.is-active {
+  color: var(--brand-pink);
+}
+
+.hospital-mobile-services__count {
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: var(--primary-9);
+  color: var(--brand-blue);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.hospital-mobile-services__list {
+  border-top: 1px solid var(--slate-12);
+}
+
+.hospital-mobile-service-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--slate-10);
+  color: var(--brand-slate);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.hospital-mobile-service-link:first-child {
+  border-top: 0;
+}
+
+.hospital-mobile-service-link:hover {
+  background: var(--primary-4);
+  color: var(--brand-blue);
+}
+
+.hospital-mobile-service-link.is-active {
+  background: var(--accent-5);
+  color: var(--brand-pink);
+}
+
+.hospital-mobile-drawer__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  border-top: 1px solid var(--slate-15);
+  background: rgba(24, 102, 174, 0.025);
+}
+
+.hospital-mobile-drawer__booking {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--brand-pink);
+  color: var(--brand-white);
+  font-family: var(--font-heading), var(--font-fallback);
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.hospital-mobile-drawer__booking:hover {
+  background: var(--brand-blue);
+  box-shadow: 0 6px 18px rgba(24, 102, 174, 0.18);
+}
+
+.hospital-mobile-drawer__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hospital-mobile-drawer__contact-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 10px 8px;
+  border: 1px solid var(--primary-20);
+  border-radius: var(--radius-md);
+  background: var(--brand-white);
+  color: var(--brand-blue);
+  font-size: 15px;
+  font-weight: 800;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.hospital-mobile-drawer__contact-action:hover {
+  border-color: var(--accent-30);
+  color: var(--brand-pink);
+}
+
+.hospital-mobile-drawer__detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--brand-slate);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+
+/* =========================================================================
+   11. SECTION: HERO
+   ========================================================================= */
+
+.hero-slider-wrap {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--brand-blue);
+  touch-action: pan-y;
+}
+
+.hero-overlay-gradient {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.10) 50%, transparent);
+}
+
+@media (min-width: 768px) {
+  .hero-overlay-gradient {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.05) 50%, transparent);
+  }
+}
+
+.hero-headline {
+  font-family: var(--font-heading), var(--font-fallback);
+  color: var(--brand-black);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-size: clamp(2.15rem, 4.1vw, 4rem);
+}
+
+.hero-appointment-btn {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border-radius: 6px;
+  background-color: var(--brand-pink);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--brand-white);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition-normal);
+}
+
+.hero-appointment-btn:hover {
+  transform: translateY(-2px);
+  background-color: var(--brand-blue);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.hero-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background-color: rgba(24, 102, 174, 0.9);
+  color: var(--brand-white);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition-normal);
+}
+
+.hero-nav-arrow:hover {
+  transform: translateY(-50%) scale(1.05);
+  background-color: var(--brand-pink);
+}
+
+.hero-indicator-dot {
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all var(--transition-normal);
+}
+
+.hero-indicator-dot.is-active {
+  background-color: var(--brand-pink);
+  width: 10px;
+  height: 10px;
+}
+
+.hero-indicator-dot:not(.is-active) {
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 8px;
+  height: 8px;
+}
+
+.hero-indicator-dot:not(.is-active):hover {
+  background-color: var(--brand-pink);
+}
+
+/* Three Coordinated Action Panels */
+.hero-panel-locations {
+  background-color: var(--brand-pink);
+}
+
+.hero-panel-visit {
+  background-color: var(--brand-blue);
+}
+
+.hero-panel-appointment {
+  background-color: var(--brand-slate);
+}
+
+.hero-panel-btn {
+  margin-top: auto;
+  display: inline-flex;
+  height: 2.5rem;
+  width: fit-content;
+  max-width: 100%;
+  flex-shrink: 0;
+  align-items: stretch;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background-color: var(--brand-white);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--brand-slate);
+  transition: all var(--transition-normal);
+}
+
+.hero-panel-btn:hover {
+  transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-panel-btn-arrow {
+  display: flex;
+  width: 2.5rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+  background-color: var(--brand-blue);
+  color: var(--brand-white);
+  transition: background-color var(--transition-normal);
+}
+
+.hero-panel-btn:hover .hero-panel-btn-arrow {
+  background-color: var(--brand-pink);
+}
+
+
+/* =========================================================================
+   12. SECTION: ABOUT
+   ========================================================================= */
+
+.about-section {
+  background-color: var(--bg-pink-soft);
+}
+
+.about-bg-blob-1 {
+  background-color: var(--accent-5);
+}
+
+.about-bg-blob-2 {
+  background-color: var(--accent-4);
+}
+
+.about-director-badge {
+  background-color: var(--brand-blue);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--brand-white);
+}
+
+.about-experience-badge {
+  background: linear-gradient(135deg, var(--brand-pink) 0%, var(--brand-blue) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  color: var(--brand-white);
+}
+
+.about-stat-card {
+  border: 1px solid var(--accent-10);
+  background-color: var(--brand-white);
+  transition: all var(--transition-slow);
+}
+
+.about-stat-card:hover {
+  border-color: var(--accent-30);
+  transform: translateY(-4px);
+}
+
+.about-stat-val {
+  color: var(--brand-blue);
+}
+
+.about-stat-label {
+  color: var(--brand-slate);
+}
+
+.about-tag {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--accent-20);
+  color: var(--brand-pink);
+}
+
+.about-headline-accent {
+  color: var(--brand-blue);
+}
+
+.about-accent-bar {
+  background-color: var(--brand-pink);
+}
+
+.about-pillar-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--slate-10);
+  transition: all var(--transition-slow);
+}
+
+.about-pillar-card:hover {
+  border-color: var(--accent-25);
+  transform: translateY(-3px);
+}
+
+.about-timing-box {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--accent-15);
+}
+
+.about-btn-primary {
+  background-color: var(--brand-blue);
+  color: var(--brand-white);
+  box-shadow: 0 4px 14px rgba(24, 102, 174, 0.2);
+  transition: background-color var(--transition-fast);
+}
+
+.about-btn-primary:hover {
+  background-color: var(--brand-pink);
+}
+
+
+/* =========================================================================
+   13. SECTION: SERVICES
+   ========================================================================= */
+
+.services-tag {
+  border: 1px solid var(--primary-15);
+  background-color: var(--bg-blue-soft);
+  color: var(--brand-blue);
+}
+
+.services-accent-title {
+  color: var(--brand-pink);
+}
+
+.services-explore-link {
+  color: var(--brand-blue);
+  transition: all var(--transition-fast);
+}
+
+.services-explore-link:hover {
+  color: var(--brand-pink);
+}
+
+.service-card {
+  border: 1px solid var(--slate-10);
+  background-color: var(--brand-white);
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition-slow);
+}
+
+.service-card:hover {
+  border-color: var(--primary-30);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.service-badge-blue {
+  background-color: var(--bg-blue-soft);
+  color: var(--brand-blue);
+  border-color: var(--primary-20);
+}
+
+.service-badge-pink {
+  background-color: var(--bg-pink-soft);
+  color: var(--brand-pink);
+  border-color: var(--accent-20);
+}
+
+.service-card-title {
+  color: var(--brand-black);
+  transition: color var(--transition-fast);
+}
+
+.service-card:hover .service-card-title {
+  color: var(--brand-pink);
+}
+
+.service-learn-more {
+  color: var(--brand-blue);
+  transition: color var(--transition-fast);
+}
+
+.service-card:hover .service-learn-more {
+  color: var(--brand-pink);
+}
+
+.service-cta-card {
+  background: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-blue-hover) 100%);
+  box-shadow: 0 12px 30px -12px rgba(24, 102, 174, 0.35);
+  color: var(--brand-white);
+}
+
+.service-cta-btn {
+  background-color: var(--brand-pink);
+  color: var(--brand-white);
+  transition: all var(--transition-fast);
+}
+
+.service-cta-btn:hover {
+  background-color: var(--brand-pink-hover);
+}
+
+
+/* =========================================================================
+   14. SECTION: WHY CHOOSE US
+   ========================================================================= */
+
+.why-us-badge {
+  background-color: rgba(24, 102, 174, 0.07);
+  color: var(--brand-blue);
+  border: 1px solid var(--primary-25);
+}
+
+.why-us-badge-dot {
+  background-color: var(--brand-pink);
+}
+
+.why-us-accent-bar {
+  background: linear-gradient(90deg, var(--brand-blue), var(--brand-pink));
+}
+
+.why-us-card {
+  border: 1px solid rgba(72, 87, 108, 0.15);
+  background-color: var(--brand-white);
+  box-shadow: 0 5px 22px rgba(0, 0, 0, 0.035);
+  transition: transform var(--transition-slow), border-color var(--transition-slow);
+}
+
+.why-us-card-blue {
+  border-color: var(--primary-25);
+}
+
+.why-us-card-pink {
+  border-color: var(--accent-25);
+}
+
+.why-us-icon-blue {
+  background-color: var(--brand-blue);
+}
+
+.why-us-icon-pink {
+  background-color: var(--brand-pink);
+}
+
+.why-us-banner {
+  background: linear-gradient(120deg, var(--brand-blue) 0%, var(--brand-pink) 100%);
+}
+
+.why-us-banner-btn {
+  background-color: var(--brand-white);
+  color: var(--brand-blue);
+}
+
+
+/* =========================================================================
+   15. SECTION: SPECIALIST DOCTORS
+   ========================================================================= */
+/* 
+.doctor-hero-card {
+  background: linear-gradient(135deg, #020617 0%, #0B132B 50%, #020617 100%);
+  border: 1px solid var(--white-10);
+  color: var(--brand-white);
+}
+
+.doctor-portrait-frame {
+  border: 2px solid var(--primary-50);
+  background: linear-gradient(to bottom, var(--primary-30), var(--slate-35), var(--brand-black));
+  transition: border-color var(--transition-slow);
+}
+
+.doctor-portrait-frame:hover {
+  border-color: var(--accent-65);
+}
+
+.doctor-opd-box {
+  background-color: var(--black-90);
+  border: 1px solid var(--white-15);
+  backdrop-filter: blur(12px);
+  transition: border-color var(--transition-slow);
+}
+
+.doctor-portrait-frame:hover .doctor-opd-box {
+  border-color: var(--accent-40);
+}
+
+.doctor-opd-title {
+  color: var(--brand-pink);
+}
+
+.doctor-check-icon {
+  color: var(--brand-blue);
+} */
+
+
+/* =========================================================================
+   15. SECTION: SPECIALIST DOCTORS
+   ========================================================================= */
+   
+/* =========================================================================
+   15. SECTION: SPECIALIST DOCTORS
+   ========================================================================= */
+
+.doctor-hero-card {
+  background: linear-gradient(135deg, #E1194D 0%, #C91442 100%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #FFFFFF;
+}
+
+.doctor-portrait-frame {
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  background: linear-gradient(to bottom, #FCE7ED, #F5B8CA, #E1194D);
+  transition: border-color var(--transition-slow);
+}
+
+.doctor-portrait-frame:hover {
+  border-color: #1866AE;
+}
+
+.doctor-opd-box {
+  background-color: #FFF7F9;
+  border: 1px solid #F9B8CA;
+  backdrop-filter: blur(12px);
+  transition: border-color var(--transition-slow);
+}
+
+.doctor-portrait-frame:hover .doctor-opd-box {
+  border-color: #E1194D;
+}
+
+.doctor-opd-title {
+  color: #E1194D;
+}
+
+.doctor-check-icon {
+  color: #FFFFFF;
+}
+
+
+.doctor-hero-card {
+  background: linear-gradient(135deg, #E1194D 0%, #C91442 55%, #A80F36 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--brand-white);
+}
+
+.doctor-portrait-frame {
+  border: 2px solid #FFFFFF;
+  background: linear-gradient(to bottom, #FCE7ED 0%, #F5B8CA 55%, #E1194D 100%);
+  transition: border-color var(--transition-slow);
+}
+
+.doctor-portrait-frame:hover {
+  border-color: #1866AE;
+}
+
+.doctor-opd-box {
+  background-color: rgba(1, 1, 1, 0.97);
+  
+  border: 1px solid #F9B8CA;
+  backdrop-filter: blur(12px);
+  transition: border-color var(--transition-slow);
+}
+
+.doctor-portrait-frame:hover .doctor-opd-box {
+  border-color: #E1194D;
+}
+
+.doctor-opd-title {
+  color: #E1194D;
+}
+
+.doctor-check-icon {
+  color: #000000;
+}
+
+/* =========================================================================
+   16. SECTION: PATIENT TESTIMONIALS
+   ========================================================================= */
+
+.testimonials-badge {
+  border: 1px solid var(--accent-20);
+  background-color: var(--brand-white);
+  color: var(--brand-pink);
+}
+
+.testimonial-card {
+  border: 1px solid var(--slate-15);
+  background-color: var(--brand-white);
+  transition: box-shadow var(--transition-normal);
+}
+
+.testimonial-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-star {
+  color: var(--brand-pink);
+  fill: var(--brand-pink);
+}
+
+.testimonial-quote-icon {
+  color: var(--slate-25);
+}
+
+.testimonial-highlight {
+  color: var(--brand-blue);
+}
+
+.testimonial-avatar {
+  background: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-black) 100%);
+  color: var(--brand-white);
+}
+
+.testimonial-verified-icon {
+  color: var(--brand-blue);
+}
+
+.testimonial-summary-pill {
+  border: 1px solid var(--slate-15);
+  background-color: var(--brand-white);
+  color: var(--brand-slate);
+}
+
+
+/* =========================================================================
+   17. SECTION: FREQUENTLY ASKED QUESTIONS (FAQ)
+   ========================================================================= */
+
+.faq-badge {
+  border: 1px solid var(--accent-20);
+  background-color: var(--brand-white);
+  color: var(--brand-pink);
+}
+
+.faq-badge-dot {
+  background-color: var(--brand-pink);
+}
+
+.faq-accent-bar {
+  background-color: var(--brand-pink);
+}
+
+.faq-doctor-card {
+  border: 1px solid var(--primary-25);
+  background-color: var(--brand-white);
+  transition: box-shadow var(--transition-slow);
+}
+
+.faq-doctor-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(24, 102, 174, 0.1);
+}
+
+.faq-contact-card {
+  border: 1px solid var(--slate-15);
+  background-color: var(--brand-white);
+}
+
+.faq-contact-icon {
+  background-color: var(--accent-8);
+  color: var(--brand-pink);
+}
+
+.faq-call-btn {
+  border: 1px solid var(--primary-25);
+  background-color: var(--brand-white);
+  color: var(--brand-blue);
+  transition: background-color var(--transition-fast);
+}
+
+.faq-call-btn:hover {
+  background-color: var(--primary-4);
+}
+
+.faq-whatsapp-btn {
+  background-color: var(--brand-pink);
+  color: var(--brand-white);
+  transition: background-color var(--transition-fast);
+}
+
+.faq-whatsapp-btn:hover {
+  background-color: var(--brand-blue);
+}
+
+.faq-accordion-item {
+  border: 1px solid var(--slate-20);
+  background-color: var(--brand-white);
+  transition: border-color var(--transition-slow), box-shadow var(--transition-slow);
+}
+
+.faq-accordion-item:hover {
+  border-color: rgba(24, 102, 174, 0.45);
+}
+
+.faq-accordion-item.is-open {
+  border-color: var(--accent-35);
+  box-shadow: 0 4px 6px -1px var(--accent-6);
+}
+
+.faq-number-badge {
+  border: 1px solid var(--slate-20);
+  background-color: var(--brand-white);
+  color: var(--brand-slate);
+  transition: all var(--transition-slow);
+}
+
+.faq-accordion-item.is-open .faq-number-badge {
+  border-color: var(--brand-pink);
+  background-color: var(--brand-pink);
+  color: var(--brand-white);
+}
+
+.faq-question-text {
+  color: var(--brand-black);
+  transition: color var(--transition-fast);
+}
+
+.faq-accordion-item.is-open .faq-question-text {
+  color: var(--brand-pink);
+}
+
+.faq-chevron-wrap {
+  border: 1px solid var(--slate-20);
+  transition: all var(--transition-fast);
+}
+
+.faq-accordion-item.is-open .faq-chevron-wrap {
+  border-color: var(--brand-pink);
+  background-color: var(--brand-pink);
+  color: var(--brand-white);
+}
+
+
+/* =========================================================================
+   18. SECTION: CONTACT & APPOINTMENT BOOKING
+   ========================================================================= */
+
+.contact-alert-error {
+  background-color: var(--bg-pink-soft);
+  border: 1px solid var(--border-pink-soft);
+  color: var(--text-pink-error);
+}
+
+.contact-alert-icon {
+  color: var(--brand-pink);
+}
+
+
+/* =========================================================================
+   19. SECTION: FOOTER
+   ========================================================================= */
+
+.footer-emergency-btn {
+  background-color: var(--brand-pink);
+  color: var(--brand-white);
+  box-shadow: 0 10px 15px -3px rgba(225, 25, 77, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.footer-emergency-btn:hover {
+  background-color: var(--brand-pink-hover);
+}
+
+.footer-sunday-highlight {
+  color: var(--brand-pink-light);
+}
+
+
+/* =========================================================================
+   20. SECTION: EMERGENCY ACTION BAR (MOBILE)
+   ========================================================================= */
+
+.emergency-call-btn {
+  background-color: rgba(225, 25, 77, 0.9);
+  color: var(--brand-white);
+}
+
+.emergency-whatsapp-btn {
+  background-color: rgba(5, 150, 105, 0.9);
+  color: var(--brand-white);
+}
+
+.emergency-booking-btn {
+  background: linear-gradient(to right, var(--brand-blue), #155592);
+  color: var(--brand-white);
+}
+
+
+/* =========================================================================
+   21. UI COMPONENTS (Buttons, Badges, Cards, Inputs, Modals)
+   ========================================================================= */
+
+.btn-primary-brand {
+  background-color: var(--brand-blue);
+  color: var(--brand-white);
+  transition: all var(--transition-normal);
+}
+
+.btn-primary-brand:hover {
+  background-color: var(--brand-pink);
+  transform: translateY(-2px);
+}
+
+.btn-secondary-brand {
+  background-color: var(--brand-pink);
+  color: var(--brand-white);
+  transition: all var(--transition-normal);
+}
+
+.btn-secondary-brand:hover {
+  background-color: var(--brand-pink-hover);
+  transform: translateY(-2px);
+}
+
+.card-elevated {
+  background-color: var(--brand-white);
+  border: 1px solid var(--slate-15);
+  box-shadow: 0 4px 24px -8px rgba(0, 0, 0, 0.08);
+  transition: all var(--transition-slow);
+}
+
+.card-elevated:hover {
+  border-color: var(--primary-30);
+  box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =========================================================================
+   22. RESPONSIVE BREAKPOINTS & LAYOUT
+   ========================================================================= */
+
+@media (min-width: 1024px) {
+  .hospital-navbar__container {
+    padding-inline: 20px;
+  }
+
+  .hospital-navbar__inner {
+    height: 88px;
+    min-height: 88px;
+    gap: 12px;
+  }
+
+  .hospital-navbar__logo {
+    flex-basis: 188px;
+  }
+
+  .hospital-navbar__logo-frame {
+    height: 64px;
+  }
+
+  .hospital-navbar__desktop-nav {
+    display: flex;
+    gap: 1px;
+  }
+
+  .hospital-navbar__link {
+    padding-inline: 9px;
+    font-size: 16px;
+  }
+
+  .hospital-navbar__link::after {
+    right: 9px;
+    left: 9px;
+  }
+
+  .hospital-navbar__menu-toggle {
+    display: none;
+  }
+}
+
+@media (min-width: 1150px) {
+  .hospital-navbar__container {
+    padding-inline: 24px;
+  }
+
+  .hospital-navbar__inner {
+    gap: 16px;
+  }
+
+  .hospital-navbar__logo {
+    flex-basis: 198px;
+  }
+
+  .hospital-navbar__desktop-nav {
+    gap: 2px;
+  }
+
+  .hospital-navbar__link {
+    padding-inline: 10px;
+    font-size: 17px;
+  }
+
+  .hospital-navbar__link::after {
+    right: 10px;
+    left: 10px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hospital-navbar__inner {
+    gap: 14px;
+  }
+
+  .hospital-navbar__logo {
+    flex-basis: 208px;
+  }
+
+  .hospital-navbar__desktop-nav {
+    gap: 1px;
+  }
+
+  .hospital-navbar__link {
+    padding-inline: 9px;
+    font-size: 17px;
+  }
+
+  .hospital-navbar__booking {
+    display: inline-flex;
+    padding-inline: 13px;
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .hospital-navbar__inner {
+    gap: 18px;
+  }
+
+  .hospital-navbar__logo {
+    flex-basis: 224px;
+  }
+
+  .hospital-navbar__desktop-nav {
+    gap: 3px;
+  }
+
+  .hospital-navbar__link {
+    padding-inline: 12px;
+    font-size: 18px;
+  }
+
+  .hospital-navbar__link::after {
+    right: 12px;
+    left: 12px;
+  }
+
+  .hospital-navbar__booking {
+    padding-inline: 18px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hospital-navbar__container {
+    padding-inline: 20px;
+  }
+
+  .hospital-navbar__inner {
+    height: 78px;
+    min-height: 78px;
+    gap: 14px;
+  }
+
+  .hospital-navbar__logo {
+    flex-basis: 210px;
+    width: min(210px, calc(100vw - 100px));
+  }
+
+  .hospital-navbar__logo-frame {
+    height: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hospital-navbar__container {
+    padding-inline: 14px;
+  }
+
+  .hospital-navbar__inner {
+    height: 72px;
+    min-height: 72px;
+    gap: 10px;
+  }
+
+  .hospital-navbar__logo {
+    flex-basis: 185px;
+    width: min(185px, calc(100vw - 82px));
+  }
+
+  .hospital-navbar__logo-frame {
+    height: 56px;
+  }
+
+  .hospital-navbar__menu-toggle {
+    flex-basis: 44px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .hospital-mobile-drawer {
+    max-width: 100%;
+  }
+}
+
+
+/* =========================================================================
+   23. REDUCED MOTION PREFERENCES
+   ========================================================================= */
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

@@ -22,7 +22,7 @@ export default function HomePage() {
       <ServicesSection onOpenBooking={openBookingModal} />
       <WhyChooseUsSection onOpenBooking={openBookingModal} />
       <DoctorSection onOpenBooking={openBookingModal} />
-      <CabinGallerySection onOpenBooking={openBookingModal} />
+      {/* <CabinGallerySection onOpenBooking={openBookingModal} /> */}
       <TestimonialsSection />
       <FaqSection onOpenBooking={openBookingModal} />
       <ContactSection />

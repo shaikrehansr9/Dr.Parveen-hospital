@@ -33,7 +33,7 @@ export default function Footer({ onOpenBooking }) {
     <footer className="bg-navy-950 text-slate-300 relative overflow-hidden pt-16 pb-24 md:pb-12 border-t border-white/10">
       {/* Decorative Glow */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-10 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Top Emergency CTA Strip */}
@@ -43,15 +43,19 @@ export default function Footer({ onOpenBooking }) {
               <div className="w-14 h-14 rounded-2xl bg-brand-500/15 border border-brand-400/30 flex items-center justify-center text-brand-400 shrink-0 mx-auto sm:mx-0">
                 <Clock className="w-7 h-7" />
               </div>
+
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-brand-400">
-                  24x7 Emergency Care & Labor Ward
+                  24x7 Emergency Care &amp; Labor Ward
                 </span>
+
                 <h3 className="text-xl sm:text-2xl font-bold text-white mt-0.5">
                   Need Urgent Medical Attention or Maternity Care?
                 </h3>
+
                 <p className="text-sm text-slate-400 mt-1">
-                  Our emergency triage and labor ward are staffed 24 hours a day, 7 days a week.
+                  Our emergency triage and labor ward are staffed 24 hours a
+                  day, 7 days a week.
                 </p>
               </div>
             </div>
@@ -59,7 +63,7 @@ export default function Footer({ onOpenBooking }) {
             <div className="flex flex-wrap items-center justify-center gap-3 shrink-0 w-full sm:w-auto">
               <a
                 href={`tel:${HOSPITAL_INFO.rawPhone}`}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-sm shadow-lg shadow-red-600/30 transition-all active:scale-95"
+                className="footer-emergency-btn w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-white font-bold text-sm transition-all active:scale-95"
               >
                 <Phone className="w-4 h-4 animate-pulse" />
                 <span>Call {HOSPITAL_INFO.phone}</span>
@@ -80,7 +84,7 @@ export default function Footer({ onOpenBooking }) {
 
         {/* Main 4-Column Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-white/10">
-          {/* Column 1: Hospital Info & Branding (4 cols) */}
+          {/* Column 1: Hospital Info & Branding */}
           <div className="lg:col-span-4 space-y-5">
             <div className="relative h-14 w-60">
               <Image
@@ -94,10 +98,11 @@ export default function Footer({ onOpenBooking }) {
             </div>
 
             <p className="text-sm text-slate-400 leading-relaxed text-justify">
-              Dr Parween’s Hospital is a state-of-the-art healthcare facility located in
-              Sangareddy, Telangana. Our mission is to provide ethical, transparent, and
-              compassionate care to every patient, with leading expertise in maternity,
-              gynecology, and multispecialty medicine.
+              Dr Parween’s Hospital is a state-of-the-art healthcare facility
+              located in Sangareddy, Telangana. Our mission is to provide
+              ethical, transparent, and compassionate care to every patient,
+              with leading expertise in maternity, gynecology, and
+              multispecialty medicine.
             </p>
 
             <div className="flex items-center gap-3 pt-2">
@@ -110,6 +115,7 @@ export default function Footer({ onOpenBooking }) {
               >
                 <MessageCircle className="w-4 h-4" />
               </a>
+
               <a
                 href={`tel:${HOSPITAL_INFO.rawPhone}`}
                 className="w-10 h-10 rounded-xl bg-brand-500/10 hover:bg-brand-500 text-brand-400 hover:text-white border border-brand-500/20 flex items-center justify-center transition-all"
@@ -117,6 +123,7 @@ export default function Footer({ onOpenBooking }) {
               >
                 <Phone className="w-4 h-4" />
               </a>
+
               <a
                 href={`mailto:${HOSPITAL_INFO.email}`}
                 className="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-white/10 flex items-center justify-center transition-all"
@@ -127,7 +134,7 @@ export default function Footer({ onOpenBooking }) {
             </div>
           </div>
 
-          {/* Column 2: Patient Care Specialties (3 cols) */}
+          {/* Column 2: Patient Care Specialties */}
           <div className="lg:col-span-3 space-y-4">
             <h4 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-brand-400" />
@@ -137,74 +144,161 @@ export default function Footer({ onOpenBooking }) {
             <ul className="space-y-2.5 text-sm">
               {MEDICAL_SERVICES.map((s) => (
                 <li key={s.id}>
-                  <Link
-                    href={`/services/${s.slug}`}
-                    className="text-slate-400 hover:text-brand-300 transition-colors flex items-center gap-2 group"
+                  <a
+                    href="#services"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
+                      window.history.pushState(null, "", "#services");
+                      setTimeout(() => {
+                        window.dispatchEvent(
+                          new CustomEvent("open-service-modal", { detail: { slug: s.slug } })
+                        );
+                      }, 300);
+                    }}
+                    className="text-slate-400 hover:text-brand-300 transition-colors flex items-center gap-2 group cursor-pointer"
                   >
                     <ArrowRight className="w-3.5 h-3.5 text-brand-400 transition-transform group-hover:translate-x-1" />
                     <span>{s.title}</span>
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Column 3: Quick Navigation Links (2 cols) */}
+          {/* Column 3: Quick Navigation Links */}
           <div className="lg:col-span-2 space-y-4">
             <h4 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-teal-400" />
+              <span className="w-2 h-2 rounded-full bg-brand-400" />
               <span>Quick Links</span>
             </h4>
 
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/" className="text-slate-400 hover:text-white transition-colors">
+                <a
+                  href="#home"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("home")?.scrollIntoView({ behavior: "smooth" });
+                    window.history.pushState(null, "", "#home");
+                  }}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
                   Home
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/about" className="text-slate-400 hover:text-white transition-colors">
+                <a
+                  href="#about"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+                    window.history.pushState(null, "", "#about");
+                  }}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
                   About Us
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/services" className="text-slate-400 hover:text-white transition-colors">
-                  All Services
-                </Link>
+                <a
+                  href="#services"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
+                    window.history.pushState(null, "", "#services");
+                  }}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
+                  Specialties &amp; Care
+                </a>
               </li>
               <li>
-                <Link href="/doctors" className="text-slate-400 hover:text-white transition-colors">
-                  Doctors Directory
-                </Link>
+                <a
+                  href="#why-us"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("why-us")?.scrollIntoView({ behavior: "smooth" });
+                    window.history.pushState(null, "", "#why-us");
+                  }}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
+                  Why Choose Us
+                </a>
               </li>
               <li>
-                <Link href="/gallery" className="text-slate-400 hover:text-white transition-colors">
-                  Cabins & OT Gallery
-                </Link>
+                <a
+                  href="#doctors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("doctors")?.scrollIntoView({ behavior: "smooth" });
+                    window.history.pushState(null, "", "#doctors");
+                  }}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
+                  Specialist Doctors
+                </a>
               </li>
               <li>
-                <Link href="/#testimonials" className="text-slate-400 hover:text-white transition-colors">
-                  Testimonials
-                </Link>
+                <a
+                  href="#gallery"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("gallery")?.scrollIntoView({ behavior: "smooth" });
+                    window.history.pushState(null, "", "#gallery");
+                  }}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
+                  Cabins &amp; OT Gallery
+                </a>
               </li>
               <li>
-                <Link href="/#faqs" className="text-slate-400 hover:text-white transition-colors">
+                <a
+                  href="#testimonials"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("testimonials")?.scrollIntoView({ behavior: "smooth" });
+                    window.history.pushState(null, "", "#testimonials");
+                  }}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
+                  Patient Reviews
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#faq"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" });
+                    window.history.pushState(null, "", "#faq");
+                  }}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
                   FAQs
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/contact" className="text-slate-400 hover:text-white transition-colors">
-                  Contact & Location
-                </Link>
+                <a
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                    window.history.pushState(null, "", "#contact");
+                  }}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
+                  Contact &amp; Location
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Column 4: Contact & Schedule Info (3 cols) */}
+          {/* Column 4: Contact & Schedule Info */}
           <div className="lg:col-span-3 space-y-4">
             <h4 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-amber-400" />
-              <span>Contact & Visit</span>
+              <span className="w-2 h-2 rounded-full bg-brand-pink" />
+              <span>Contact &amp; Visit</span>
             </h4>
 
             <div className="space-y-3.5 text-sm text-slate-300">
@@ -213,7 +307,8 @@ export default function Footer({ onOpenBooking }) {
                 <p className="leading-relaxed text-xs sm:text-sm">
                   {HOSPITAL_INFO.address.line1}, <br />
                   {HOSPITAL_INFO.address.line2}, <br />
-                  {HOSPITAL_INFO.address.city}, {HOSPITAL_INFO.address.state} – {HOSPITAL_INFO.address.pincode}
+                  {HOSPITAL_INFO.address.city}, {HOSPITAL_INFO.address.state} –{" "}
+                  {HOSPITAL_INFO.address.pincode}
                 </p>
               </div>
 
@@ -242,9 +337,12 @@ export default function Footer({ onOpenBooking }) {
                   <Clock className="w-3.5 h-3.5 text-brand-400" />
                   <span>OPD Consultation Hours:</span>
                 </div>
+
                 <p className="text-xs text-slate-400 pl-5">
                   Mon – Sat: 9:00 AM – 6:00 PM <br />
-                  <span className="text-amber-300 font-medium">Sunday: Emergency Only (24/7)</span>
+                  <span className="footer-sunday-highlight font-medium">
+                    Sunday: Emergency Only (24/7)
+                  </span>
                 </p>
               </div>
             </div>
@@ -273,7 +371,7 @@ export default function Footer({ onOpenBooking }) {
             </span>
             <span>•</span>
             <span className="hover:text-white transition-colors cursor-pointer">
-              Terms & Conditions
+              Terms &amp; Conditions
             </span>
 
             <button

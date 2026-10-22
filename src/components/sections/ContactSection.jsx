@@ -79,10 +79,22 @@ export default function ContactSection() {
   }));
 
   const doctorOptions = [
-    { value: "Dr. Parween Saba", label: "Dr. Parween Saba (Gynaecologist & Obstetrician)" },
-    { value: "Dr. A. Rahman", label: "Dr. A. Rahman (Laparoscopic Surgeon)" },
-    { value: "Dr. K. Srinivas Rao", label: "Dr. K. Srinivas Rao (Internal Medicine)" },
-    { value: "Dr. S. Fatima", label: "Dr. S. Fatima (Pediatrician)" },
+    {
+      value: "Dr. Parween Saba",
+      label: "Dr. Parween Saba (Gynaecologist & Obstetrician)",
+    },
+    {
+      value: "Dr. A. Rahman",
+      label: "Dr. A. Rahman (Laparoscopic Surgeon)",
+    },
+    {
+      value: "Dr. K. Srinivas Rao",
+      label: "Dr. K. Srinivas Rao (Internal Medicine)",
+    },
+    {
+      value: "Dr. S. Fatima",
+      label: "Dr. S. Fatima (Pediatrician)",
+    },
   ];
 
   const timeOptions = [
@@ -99,7 +111,10 @@ export default function ContactSection() {
   );
 
   return (
-    <section id="contact" className="py-16 lg:py-20 bg-slate-50 relative overflow-hidden">
+    <section
+      id="contact"
+      className="py-16 lg:py-20 bg-slate-50 relative overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
@@ -110,7 +125,8 @@ export default function ContactSection() {
             We Are Available, Book Here Now
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-            Fill out the form below to lock in your appointment slot or visit our hospital premises in Sangareddy.
+            Fill out the form below to lock in your appointment slot or visit
+            our hospital premises in Sangareddy.
           </p>
         </div>
 
@@ -118,7 +134,9 @@ export default function ContactSection() {
           {/* Left Column: Interactive Form (6 cols) */}
           <div className="lg:col-span-6 bg-white p-7 sm:p-10 rounded-3xl shadow-xl border border-slate-200/80">
             <div className="space-y-2 mb-6">
-              <h3 className="text-2xl font-bold text-navy-950">Book An Appointment</h3>
+              <h3 className="text-2xl font-bold text-navy-950">
+                Book An Appointment
+              </h3>
               <p className="text-xs sm:text-sm text-slate-500">
                 Directly connected to our hospital front desk coordinator.
               </p>
@@ -134,10 +152,12 @@ export default function ContactSection() {
                     Appointment Request Logged!
                   </h4>
                   <p className="text-xs text-emerald-800 mt-1">
-                    Your Token ID is: <strong>{successResponse.bookingToken}</strong>
+                    Your Token ID is:{" "}
+                    <strong>{successResponse.bookingToken}</strong>
                   </p>
                   <p className="text-xs text-emerald-700 mt-2">
-                    Our desk executive will call your phone number to confirm the exact time slot.
+                    Our desk executive will call your phone number to confirm
+                    the exact time slot.
                   </p>
                 </div>
                 <Button
@@ -151,8 +171,8 @@ export default function ContactSection() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 {errorMsg && (
-                  <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
-                    <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                  <div className="contact-alert-error p-3 rounded-xl text-xs flex items-center gap-2">
+                    <AlertCircle className="contact-alert-icon w-4 h-4 shrink-0" />
                     <span>{errorMsg}</span>
                   </div>
                 )}
@@ -269,7 +289,9 @@ export default function ContactSection() {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-navy-950">Hospital Address:</h4>
+                  <h4 className="text-sm font-bold text-navy-950">
+                    Hospital Address:
+                  </h4>
                   <p className="text-xs sm:text-sm text-slate-600 mt-0.5 leading-relaxed">
                     {HOSPITAL_INFO.address.full}
                   </p>
@@ -278,7 +300,7 @@ export default function ContactSection() {
 
               <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-slate-100">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-teal-500/10 text-teal-600 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-2xl bg-brand-500/10 text-brand-600 flex items-center justify-center shrink-0">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>

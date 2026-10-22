@@ -38,6 +38,7 @@ export default function AppointmentModal({ isOpen, onClose }) {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
@@ -49,7 +50,9 @@ export default function AppointmentModal({ isOpen, onClose }) {
     setErrorMessage("");
 
     if (!formData.name.trim() || !formData.phone.trim()) {
-      setErrorMessage("Please enter both patient full name and valid phone number.");
+      setErrorMessage(
+        "Please enter both patient full name and valid phone number."
+      );
       return;
     }
 
@@ -57,13 +60,18 @@ export default function AppointmentModal({ isOpen, onClose }) {
 
     try {
       const response = await api.bookAppointment(formData);
+
       if (response && response.success) {
         setConfirmation(response);
       } else {
-        throw new Error(response.message || "Failed to book appointment.");
+        throw new Error(
+          response.message || "Failed to book appointment."
+        );
       }
     } catch (err) {
-      setErrorMessage(err.message || "Something went wrong. Please call directly.");
+      setErrorMessage(
+        err.message || "Something went wrong. Please call directly."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -81,19 +89,33 @@ export default function AppointmentModal({ isOpen, onClose }) {
   }));
 
   const doctorOptions = [
-    { value: "Dr. Parween Saba", label: "Dr. Parween Saba — Senior Consultant Obstetrician & Gynecologist" },
+    {
+      value: "Dr. Parween Saba",
+      label:
+        "Dr. Parween Saba — Senior Consultant Obstetrician & Gynecologist",
+    },
   ];
 
   const timeSlotOptions = [
-    { value: "Morning (11:00 AM – 02:00 PM)", label: "Morning (11:00 AM – 02:00 PM)" },
-    { value: "Evening (07:00 PM – 09:00 PM)", label: "Evening (07:00 PM – 09:00 PM)" },
+    {
+      value: "Morning (11:00 AM – 02:00 PM)",
+      label: "Morning (11:00 AM – 02:00 PM)",
+    },
+    {
+      value: "Evening (07:00 PM – 09:00 PM)",
+      label: "Evening (07:00 PM – 09:00 PM)",
+    },
   ];
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={handleResetAndClose}
-      title={confirmation ? "Appointment Request Received!" : "Book Doctor Appointment"}
+      title={
+        confirmation
+          ? "Appointment Request Received!"
+          : "Book Doctor Appointment"
+      }
       subtitle={
         confirmation
           ? "Your token has been allocated. Our team will contact you shortly."
@@ -111,9 +133,11 @@ export default function AppointmentModal({ isOpen, onClose }) {
             <span className="text-xs font-bold uppercase tracking-widest text-slate-400">
               Booking Reference Token
             </span>
+
             <div className="text-3xl font-extrabold text-navy-950 tracking-wider font-mono bg-slate-50 border border-slate-200 py-3 px-6 rounded-2xl max-w-xs mx-auto">
               {confirmation.bookingToken}
             </div>
+
             <p className="text-sm text-slate-600 max-w-md mx-auto pt-2">
               {confirmation.message}
             </p>
@@ -123,20 +147,32 @@ export default function AppointmentModal({ isOpen, onClose }) {
           <div className="p-4 rounded-2xl bg-brand-50/70 border border-brand-200/80 text-left text-xs space-y-1.5 max-w-md mx-auto">
             <div className="flex justify-between">
               <span className="text-slate-500">Patient:</span>
-              <span className="font-bold text-navy-900">{formData.name}</span>
+              <span className="font-bold text-navy-900">
+                {formData.name}
+              </span>
             </div>
+
             <div className="flex justify-between">
               <span className="text-slate-500">Contact:</span>
-              <span className="font-bold text-navy-900">{formData.phone}</span>
+              <span className="font-bold text-navy-900">
+                {formData.phone}
+              </span>
             </div>
+
             <div className="flex justify-between">
               <span className="text-slate-500">Specialty:</span>
-              <span className="font-bold text-navy-900">{formData.service}</span>
+              <span className="font-bold text-navy-900">
+                {formData.service}
+              </span>
             </div>
+
             <div className="flex justify-between">
               <span className="text-slate-500">Doctor:</span>
-              <span className="font-bold text-navy-900">{formData.doctor}</span>
+              <span className="font-bold text-navy-900">
+                {formData.doctor}
+              </span>
             </div>
+
             <div className="flex justify-between">
               <span className="text-slate-500">Preferred Slot:</span>
               <span className="font-bold text-navy-900">
@@ -160,7 +196,12 @@ export default function AppointmentModal({ isOpen, onClose }) {
               <span>Confirm on WhatsApp</span>
             </a>
 
-            <Button variant="outline" size="md" onClick={handleResetAndClose} className="w-full sm:w-auto">
+            <Button
+              variant="outline"
+              size="md"
+              onClick={handleResetAndClose}
+              className="w-full sm:w-auto"
+            >
               Close & Done
             </Button>
           </div>
@@ -168,8 +209,8 @@ export default function AppointmentModal({ isOpen, onClose }) {
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           {errorMessage && (
-            <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 shrink-0 text-red-500" />
+            <div className="contact-alert-error p-3.5 rounded-xl text-xs flex items-center gap-2">
+              <AlertTriangle className="contact-alert-icon w-4 h-4 shrink-0" />
               <span>{errorMessage}</span>
             </div>
           )}
@@ -257,15 +298,18 @@ export default function AppointmentModal({ isOpen, onClose }) {
               <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
                 <AlertTriangle className="w-4 h-4" />
               </div>
+
               <div>
                 <span className="text-xs font-bold text-amber-950 block">
                   Urgent / Maternity Case?
                 </span>
+
                 <span className="text-[11px] text-amber-800">
                   Flags emergency triage for priority hospital desk response
                 </span>
               </div>
             </div>
+
             <label className="relative inline-flex items-center cursor-pointer shrink-0">
               <input
                 type="checkbox"
@@ -274,7 +318,8 @@ export default function AppointmentModal({ isOpen, onClose }) {
                 onChange={handleChange}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
+
+              <div className="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
             </label>
           </div>
 
@@ -287,13 +332,18 @@ export default function AppointmentModal({ isOpen, onClose }) {
               loading={isLoading}
               icon={Sparkles}
             >
-              {formData.isEmergency ? "Submit Priority Emergency Request" : "Confirm Appointment Request"}
+              {formData.isEmergency
+                ? "Submit Priority Emergency Request"
+                : "Confirm Appointment Request"}
             </Button>
           </div>
 
           <p className="text-[11px] text-slate-400 text-center pt-1">
             For critical life-threatening situations, call immediately at{" "}
-            <a href={`tel:${HOSPITAL_INFO.rawPhone}`} className="text-brand-600 font-bold underline">
+            <a
+              href={`tel:${HOSPITAL_INFO.rawPhone}`}
+              className="text-brand-600 font-bold underline"
+            >
               {HOSPITAL_INFO.phone}
             </a>
           </p>

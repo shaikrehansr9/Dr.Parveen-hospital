@@ -16,7 +16,7 @@ export default function Card({
     flat:
       "bg-white border border-slate-200 shadow-sm text-slate-800",
     gradient:
-      "bg-gradient-to-br from-white via-brand-50/30 to-teal-50/20 border border-brand-100 shadow-luxury text-slate-800",
+      "bg-gradient-to-br from-white via-brand-50/30 to-primary-50/20 border border-brand-100 shadow-luxury text-slate-800",
   };
 
   const hoverStyle = hover

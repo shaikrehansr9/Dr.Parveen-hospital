@@ -3,18 +3,15 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
-  Award,
   Calendar,
   CheckCircle2,
-  Heart,
   Phone,
-  ShieldCheck,
   Star,
   Stethoscope,
-  Clock,
-  Sparkles,
 } from "lucide-react";
+
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
@@ -27,7 +24,8 @@ export default function DoctorSection({ onOpenBooking }) {
       role: "Senior Laparoscopic & General Surgeon",
       qualification: "MBBS, MS (Gen Surgery), FMAS",
       experience: "12+ Years Experience",
-      focus: "Minimally invasive keyhole surgery, gallbladder, appendectomy, hernia",
+      focus:
+        "Minimally invasive keyhole surgery, gallbladder, appendectomy, hernia",
       image: "/assets/gallery/operation-theater.jpg",
     },
     {
@@ -35,7 +33,8 @@ export default function DoctorSection({ onOpenBooking }) {
       role: "Consultant Physician & Diabetologist",
       qualification: "MBBS, MD (Internal Medicine)",
       experience: "15+ Years Experience",
-      focus: "Hypertension, chronic diabetes, infectious fevers, adult medicine",
+      focus:
+        "Hypertension, chronic diabetes, infectious fevers, adult medicine",
       image: "/assets/services/internal-medicine.png",
     },
     {
@@ -43,120 +42,151 @@ export default function DoctorSection({ onOpenBooking }) {
       role: "Consultant Pediatrician & Neonatologist",
       qualification: "MBBS, DCH, DNB (Pediatrics)",
       experience: "8+ Years Experience",
-      focus: "Newborn care, infant vaccination, pediatric respiratory & wellness",
+      focus:
+        "Newborn care, infant vaccination, pediatric respiratory & wellness",
       image: "/assets/services/pediatrics.png",
     },
   ];
 
   return (
-    <section id="doctors" className="py-16 lg:py-20 bg-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
+    <section
+      id="doctors"
+      className="relative overflow-hidden bg-white py-16 lg:py-20"
+    >
+      {/* Section Header */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto mb-12 max-w-3xl space-y-3 text-center">
           <Badge variant="cyan" size="md" dot>
             Best Specialists & Clinical Leadership
           </Badge>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-950 tracking-tight leading-tight">
+
+          <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-navy-950 sm:text-4xl lg:text-5xl">
             Meet With Our Specialist Doctor for Your Treatment
           </h2>
-          <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-            Led by Dr. Parween Saba, our experienced doctors provide personalized care backed by years of clinical mastery, ensuring the best outcomes for every mother, child, and patient.
+
+          <p className="text-base leading-relaxed text-slate-600 sm:text-lg">
+            Led by Dr. Parween Saba, our experienced doctors provide
+            personalized care backed by years of clinical mastery,
+            ensuring the best outcomes for every mother, child, and patient.
           </p>
         </div>
 
-        {/* Lead Doctor Hero Feature Card */}
-        <div className="bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 text-white rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl border border-white/10 mb-12 relative overflow-hidden">
-          {/* Ambient Lighting */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-brand-500/15 rounded-full blur-3xl pointer-events-none" />
+{/* Lead Doctor Hero Feature Card */}
+<div className="doctor-hero-card relative mb-12 overflow-hidden rounded-3xl p-6 shadow-2xl sm:p-10 lg:p-12">
+  {/* Ambient Lighting */}
+  <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
-            {/* Doctor Image Column */}
-            <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-full max-w-sm aspect-[3.5/4] rounded-3xl overflow-hidden bg-gradient-to-b from-brand-900/40 via-navy-900/60 to-navy-950 border-2 border-brand-400/30 shadow-2xl">
-                <Image
-                  src={LEAD_DOCTOR.imageNoBg || LEAD_DOCTOR.image}
-                  alt={LEAD_DOCTOR.name}
-                  fill
-                  quality={90}
-                  sizes="(max-width: 1024px) 90vw, 32vw"
-                  className="object-contain object-bottom hover:scale-105 transition-transform duration-500"
-                />
+  <div className="relative z-10 grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
+    {/* Doctor Image Column */}
+    <div className="flex min-w-0 justify-center lg:col-span-5">
+      <motion.div
+        initial={{ opacity: 0, y: 24, scale: 0.98 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{
+          duration: 0.75,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        whileHover={{ y: -4 }}
+        className="doctor-portrait-frame group relative aspect-[3.5/4] w-full max-w-sm overflow-hidden rounded-3xl shadow-[0_20px_55px_rgba(0,0,0,0.25)] motion-reduce:transform-none"
+      >
+        <Image
+          src="/assets/doctors/dr-parween.png"
+          alt={LEAD_DOCTOR.name}
+          fill
+          priority
+          quality={90}
+          sizes="(max-width: 1024px) 90vw, 32vw"
+          className="origin-top object-cover object-top scale-[1.06] transition-transform duration-700 ease-out group-hover:scale-[1.1] motion-reduce:transform-none motion-reduce:transition-none"
+        />
 
-                <div className="absolute top-4 left-4">
-                  <Badge variant="glow" size="sm" dot>
-                    Founding Director
-                  </Badge>
-                </div>
+        {/* Founding Director Badge */}
+        <div className="absolute left-4 top-4 z-10">
+          <Badge variant="dark" size="sm" dot>
+            Founding Director
+          </Badge>
+        </div>
 
-                <div className="absolute bottom-4 inset-x-4 p-3 rounded-xl bg-navy-900/90 backdrop-blur-md border border-white/10 text-center">
-                  <div className="text-xs font-bold text-brand-300">OPD Consultation</div>
-                  <div className="text-xs text-slate-300">Mon – Sat: 9:00 AM – 6:00 PM</div>
-                </div>
-              </div>
-            </div>
+        {/* OPD Consultation Information */}
+        <div className="doctor-opd-box absolute inset-x-4 bottom-4 z-10 rounded-xl p-3 text-center shadow-lg">
+          <div className="doctor-opd-title text-xs font-bold">
+            OPD Consultation
+          </div>
 
-            {/* Doctor Credentials & Bio Column */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="space-y-2">
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="text-xs font-extrabold uppercase tracking-widest text-brand-400">
-                    Chief Consultant Gynecologist & Obstetrician
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-xs text-amber-300 font-semibold bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/20">
-                    <Star className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
-                    <span>5.0 Patient Rating</span>
-                  </span>
-                </div>
-
-                <h3 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                  {LEAD_DOCTOR.name}
-                </h3>
-
-                <p className="text-sm sm:text-base font-semibold text-brand-200">
-                  {LEAD_DOCTOR.degrees} • {LEAD_DOCTOR.experience}
-                </p>
-              </div>
-
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed text-justify">
-                {LEAD_DOCTOR.bio}
-              </p>
-
-              {/* Clinical Highlights Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                {LEAD_DOCTOR.highlights.map((h, i) => (
-                  <div
-                    key={i}
-                    className="flex items-start gap-2.5 p-3 rounded-xl bg-white/5 border border-white/10"
-                  >
-                    <CheckCircle2 className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
-                    <span className="text-xs text-slate-200 font-medium">{h}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-4 pt-2">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  onClick={onOpenBooking}
-                  icon={Calendar}
-                  className="shadow-xl shadow-brand-500/25"
-                >
-                  Consult Dr. Parween Saba
-                </Button>
-
-                <a
-                  href={`tel:${HOSPITAL_INFO.rawPhone}`}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-sm border border-white/10 transition-colors"
-                >
-                  <Phone className="w-4 h-4 text-brand-300" />
-                  <span>Call OPD Desk</span>
-                </a>
-              </div>
-            </div>
+          <div className="mt-1 text-sm font-semibold text-slate-700">
+            Mon – Sat: 9:00 AM – 6:00 PM
           </div>
         </div>
+      </motion.div>
+    </div>
+
+    {/* Doctor Credentials & Bio Column */}
+    <div className="min-w-0 space-y-6 lg:col-span-7">
+      <div className="space-y-2">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-xl font-extrabold uppercase tracking-widest text-white">
+            Chief Consultant Gynecologist & Obstetrician
+          </span>
+
+          <span className="inline-flex items-center gap-1 rounded-full border border-amber-200/50 bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-950">
+            <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-600" />
+            <span>5.0 Patient Rating</span>
+          </span>
+        </div>
+
+        <h3 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          {LEAD_DOCTOR.name}
+        </h3>
+
+        <p className="text-sm font-semibold text-white/90 sm:text-base">
+          {LEAD_DOCTOR.degrees} • {LEAD_DOCTOR.experience}
+        </p>
+      </div>
+
+      <p className="text-justify text-sm leading-relaxed text-white/90 sm:text-base">
+        {LEAD_DOCTOR.bio}
+      </p>
+
+      {/* Clinical Highlights Grid */}
+      <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
+        {LEAD_DOCTOR.highlights.map((highlight, index) => (
+          <div
+            key={index}
+            className="flex items-start gap-2.5 rounded-xl border border-white/25 bg-white/10 p-3 transition-colors duration-200 hover:bg-white/15"
+          >
+            <CheckCircle2 className="doctor-check-icon mt-0.5 h-4 w-4 shrink-0" />
+
+            <span className="text-xs font-medium text-white/95">
+              {highlight}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex flex-wrap items-center gap-4 pt-2">
+        <Button
+          variant="primary"
+          size="lg"
+          onClick={onOpenBooking}
+          icon={Calendar}
+          className="shadow-xl shadow-black/15"
+        >
+          Consult Dr. Parween Saba
+        </Button>
+
+        <a
+          href={`tel:${HOSPITAL_INFO.rawPhone}`}
+          className="inline-flex items-center gap-2 rounded-xl border border-white/40 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/20"
+        >
+          <Phone className="h-4 w-4 text-white" />
+          <span>Call OPD Desk</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
 
         {/* Supporting Specialists Sub-grid */}
         <div className="space-y-6">
@@ -165,42 +195,56 @@ export default function DoctorSection({ onOpenBooking }) {
               <h4 className="text-xl font-bold text-navy-950">
                 Multi-Specialty Medical Panel
               </h4>
-              <p className="text-xs sm:text-sm text-slate-500">
-                Specialized surgeons, physicians, and pediatricians available on schedule
+
+              <p className="text-xs text-slate-500 sm:text-sm">
+                Specialized surgeons, physicians, and pediatricians available
+                on schedule
               </p>
             </div>
+
             <Link
               href="/doctors"
-              className="text-xs sm:text-sm font-bold text-brand-600 hover:text-brand-700 hidden sm:block"
+              className="hidden text-xs font-bold text-brand-600 hover:text-brand-700 sm:block sm:text-sm"
             >
               View All Doctors →
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {supportingDoctors.map((doc, idx) => (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {supportingDoctors.map((doctor, index) => (
               <Card
-                key={idx}
-                className="p-6 bg-slate-50/70 border border-slate-200/80 rounded-2xl flex flex-col justify-between"
+                key={index}
+                className="flex flex-col justify-between rounded-2xl border border-slate-200/80 bg-slate-50/70 p-6"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <Badge variant="teal" size="sm">
-                      {doc.experience}
+                      {doctor.experience}
                     </Badge>
-                    <Stethoscope className="w-4 h-4 text-slate-400" />
+
+                    <Stethoscope className="h-4 w-4 text-slate-400" />
                   </div>
 
                   <div>
-                    <h5 className="text-lg font-bold text-navy-900">{doc.name}</h5>
-                    <p className="text-xs font-semibold text-brand-600 mt-0.5">{doc.role}</p>
-                    <p className="text-[11px] text-slate-400 font-mono mt-0.5">{doc.qualification}</p>
+                    <h5 className="text-lg font-bold text-navy-900">
+                      {doctor.name}
+                    </h5>
+
+                    <p className="mt-0.5 text-xs font-semibold text-brand-600">
+                      {doctor.role}
+                    </p>
+
+                    <p className="mt-0.5 font-mono text-[11px] text-slate-400">
+                      {doctor.qualification}
+                    </p>
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed">{doc.focus}</p>
+                  <p className="text-xs leading-relaxed text-slate-600">
+                    {doctor.focus}
+                  </p>
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-slate-200 flex items-center justify-between">
+                <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-4">
                   <button
                     type="button"
                     onClick={onOpenBooking}
@@ -208,7 +252,10 @@ export default function DoctorSection({ onOpenBooking }) {
                   >
                     Request Appointment →
                   </button>
-                  <span className="text-[11px] text-slate-400">OPD By Appointment</span>
+
+                  <span className="text-[11px] text-slate-400">
+                    OPD By Appointment
+                  </span>
                 </div>
               </Card>
             ))}

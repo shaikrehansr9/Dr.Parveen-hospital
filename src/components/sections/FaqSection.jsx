@@ -2,17 +2,55 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ChevronDown, Plus, Minus, HelpCircle, Phone, MessageCircle } from "lucide-react";
-import Badge from "@/components/ui/Badge";
-import Button from "@/components/ui/Button";
-import { HOSPITAL_FAQS, HOSPITAL_INFO, LEAD_DOCTOR } from "@/lib/constants";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  ChevronDown,
+  Phone,
+  MessageCircle,
+} from "lucide-react";
+
+import {
+  HOSPITAL_FAQS,
+  HOSPITAL_INFO,
+  LEAD_DOCTOR,
+} from "@/lib/constants";
 import { getWhatsAppUrl } from "@/lib/utils";
 
-export default function FaqSection({ onOpenBooking }) {
+const ease = [0.22, 1, 0.36, 1];
+
+const reveal = {
+  hidden: { opacity: 0, y: 22 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease },
+  },
+};
+
+const faqList = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.075,
+      delayChildren: 0.08,
+    },
+  },
+};
+
+const faqItem = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease },
+  },
+};
+
+export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState(0);
 
   const toggleFaq = (index) => {
-    setOpenIndex((prev) => (prev === index ? -1 : index));
+    setOpenIndex((previous) => (previous === index ? -1 : index));
   };
 
   const whatsappUrl = getWhatsAppUrl(
@@ -21,114 +59,213 @@ export default function FaqSection({ onOpenBooking }) {
   );
 
   return (
-    <section id="faqs" className="py-16 lg:py-20 bg-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
-          {/* Left Column: Heading + Doctor Visual Card (5 cols) */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="space-y-3">
-              <Badge variant="cyan" size="md" dot>
+    <section
+      id="faq"
+      className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-24"
+    >
+      {/* Subtle section divider */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-300/40 to-transparent"
+      />
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
+          {/* Left column */}
+          <motion.div
+            variants={reveal}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            className="min-w-0 space-y-6 lg:col-span-5"
+          >
+            {/* Heading */}
+            <div className="space-y-4">
+              <span className="faq-badge inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold">
+                <span className="faq-badge-dot h-2 w-2 rounded-full" />
                 Got a Question
-              </Badge>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-950 tracking-tight leading-tight">
+              </span>
+
+              <h2 className="font-heading text-3xl font-extrabold leading-tight tracking-tight text-dark sm:text-4xl lg:text-5xl">
                 Frequently Asked Questions
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-                Find quick answers about our medical services, treatments, appointments, hospital hours, and patient care for your convenience.
+
+              <div className="faq-accent-bar h-1 w-16 origin-left rounded-full" />
+
+              <p className="max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
+                Find quick answers about our medical services,
+                treatments, appointments, hospital hours, and
+                patient care for your convenience.
               </p>
             </div>
 
-            {/* Doctor Portrait Visual as on the live site */}
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-b from-brand-50 to-slate-100 border border-slate-200 aspect-[4/5] max-w-sm">
+            {/* Doctor portrait */}
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.985 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.7, ease, delay: 0.08 }}
+              whileHover={{ y: -4 }}
+              className="faq-doctor-card group relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl shadow-lg motion-reduce:transform-none"
+            >
               <Image
                 src="/assets/doctors/dr-parween.png"
                 alt={LEAD_DOCTOR.name}
                 fill
                 quality={90}
                 sizes="(max-width: 768px) 100vw, 40vw"
-                className="object-cover object-top"
+                className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.035] motion-reduce:transform-none motion-reduce:transition-none"
               />
-              <div className="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-navy-950/90 via-navy-950/40 to-transparent text-white">
-                <div className="text-xs font-bold text-brand-300">Have questions about your health?</div>
-                <h4 className="text-lg font-bold text-white mt-0.5">{LEAD_DOCTOR.name}</h4>
-                <p className="text-xs text-slate-300">{LEAD_DOCTOR.degrees}</p>
-              </div>
-            </div>
 
-            {/* Ask More Questions Card */}
-            <div className="p-5 rounded-2xl bg-brand-50/70 border border-brand-200/80 space-y-3 max-w-sm">
-              <h4 className="text-sm font-bold text-navy-900">Still have questions?</h4>
-              <p className="text-xs text-slate-600">
-                Call our reception desk or text us on WhatsApp for immediate guidance.
-              </p>
-              <div className="flex gap-2">
+              {/* Doctor information overlay */}
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/65 to-transparent px-5 pb-5 pt-20 text-white">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="faq-accent-bar h-1 w-6 rounded-full" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-white/85">
+                    Patient Care
+                  </span>
+                </div>
+
+                <h3 className="font-heading text-xl font-extrabold text-white">
+                  {LEAD_DOCTOR.name}
+                </h3>
+
+                <p className="mt-1 text-sm leading-relaxed text-white/80">
+                  {LEAD_DOCTOR.degrees}
+                </p>
+              </div>
+
+              {/* Subtle frame accent */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/20"
+              />
+            </motion.div>
+
+            {/* Contact card */}
+            <motion.div
+              variants={reveal}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ delay: 0.12 }}
+              className="faq-contact-card max-w-sm rounded-2xl p-5 shadow-sm transition-shadow duration-300 hover:shadow-md sm:p-6"
+            >
+              <div className="flex items-start gap-3">
+                <div className="faq-contact-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
+                  <MessageCircle className="h-5 w-5" />
+                </div>
+
+                <div className="min-w-0">
+                  <h3 className="font-heading text-base font-extrabold text-dark">
+                    Still have questions?
+                  </h3>
+
+                  <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                    Call our reception desk or message us on
+                    WhatsApp for guidance about treatments and
+                    appointments.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-3">
                 <a
                   href={`tel:${HOSPITAL_INFO.rawPhone}`}
-                  className="flex-1 py-2 px-3 rounded-xl bg-white border border-brand-200 text-brand-700 font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-brand-50 transition-colors"
+                  className="faq-call-btn inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
                 >
-                  <Phone className="w-3.5 h-3.5" />
+                  <Phone className="h-4 w-4 shrink-0" />
                   <span>Call Desk</span>
                 </a>
+
                 <a
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 py-2 px-3 rounded-xl bg-emerald-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-emerald-500 transition-colors"
+                  className="faq-whatsapp-btn inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
                 >
-                  <MessageCircle className="w-3.5 h-3.5" />
+                  <MessageCircle className="h-4 w-4 shrink-0" />
                   <span>WhatsApp</span>
                 </a>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          {/* Right Column: Accordion (7 cols) */}
-          <div className="lg:col-span-7 space-y-4 pt-4 lg:pt-0">
+          {/* Right column: FAQ accordion */}
+          <motion.div
+            variants={faqList}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.08 }}
+            className="min-w-0 space-y-4 lg:col-span-7 lg:pt-2"
+          >
             {HOSPITAL_FAQS.map((faq, index) => {
               const isOpen = openIndex === index;
+              const answerId = `faq-answer-${index}`;
 
               return (
-                <div
+                <motion.div
                   key={index}
-                  className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
-                    isOpen
-                      ? "bg-slate-50/80 border-brand-300 shadow-md shadow-brand-500/5"
-                      : "bg-white border-slate-200 hover:border-slate-300"
+                  variants={faqItem}
+                  className={`faq-accordion-item min-w-0 overflow-hidden rounded-2xl ${
+                    isOpen ? "is-open" : ""
                   }`}
                 >
                   <button
                     type="button"
                     onClick={() => toggleFaq(index)}
-                    className="w-full p-5 sm:p-6 text-left flex items-start justify-between gap-4 select-none"
                     aria-expanded={isOpen}
+                    aria-controls={answerId}
+                    className="flex w-full select-none items-start justify-between gap-3 p-4 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-primary-600 sm:gap-4 sm:p-5 lg:p-6"
                   >
-                    <div className="flex items-start gap-3">
-                      <span className="text-xs font-bold text-brand-600 bg-brand-50 border border-brand-200 w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                        0{index + 1}
+                    <div className="flex min-w-0 items-start gap-3 sm:gap-4">
+                      <span className="faq-number-badge mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-extrabold">
+                        {String(index + 1).padStart(2, "0")}
                       </span>
-                      <h3 className="text-base sm:text-lg font-bold text-navy-950">
+
+                      <h3 className="faq-question-text min-w-0 break-words pt-1 font-heading text-base font-bold leading-relaxed sm:text-lg">
                         {faq.question}
                       </h3>
                     </div>
 
-                    <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200 ${
-                        isOpen ? "bg-brand-500 text-white rotate-180" : "bg-slate-100 text-slate-500"
-                      }`}
+                    <motion.span
+                      animate={{
+                        rotate: isOpen ? 180 : 0,
+                      }}
+                      transition={{ duration: 0.25, ease }}
+                      className="faq-chevron-wrap flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
                     >
-                      <ChevronDown className="w-4 h-4" />
-                    </div>
+                      <ChevronDown className="h-4 w-4" />
+                    </motion.span>
                   </button>
 
-                  {isOpen && (
-                    <div className="px-5 sm:px-6 pb-6 pt-1 text-sm sm:text-base text-slate-600 leading-relaxed border-t border-slate-200/60 mt-1 pl-14">
-                      {faq.answer}
-                    </div>
-                  )}
-                </div>
+                  {/* Animated answer panel */}
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        key="answer"
+                        id={answerId}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{
+                          height: { duration: 0.35, ease },
+                          opacity: { duration: 0.22 },
+                        }}
+                        className="overflow-hidden"
+                      >
+                        <div className="border-t border-slate-200/60 px-5 pb-6 pt-4 sm:px-6 sm:pb-6 sm:pl-[4.5rem]">
+                          <p className="break-words text-sm leading-7 text-slate-600 sm:text-base">
+                            {faq.answer}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

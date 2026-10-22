@@ -1,125 +1,205 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/pages/**/*.{js,jsx}",
-    "./src/components/**/*.{js,jsx}",
-    "./src/app/**/*.{js,jsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./pages/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}",
+    "./app/**/*.{js,jsx,ts,tsx}",
   ],
+
   theme: {
     extend: {
       colors: {
+        /* Official hospital brand blue - mapped to CSS variable in globals.css */
         brand: {
-          50: '#f0fdfa',
-          100: '#ccfbf1',
-          200: '#99f6e4',
-          300: '#5eead4',
-          400: '#2dd4bf',
-          500: '#14b8a6',
-          600: '#0f766e',
-          700: '#0d6b62',
-          800: '#115e59',
-          900: '#134e4a',
-          950: '#042f2e',
-          DEFAULT: '#0f766e',
+          50: "var(--primary-4, rgba(24, 102, 174, 0.04))",
+          100: "var(--primary-8, rgba(24, 102, 174, 0.08))",
+          200: "var(--primary-16, rgba(24, 102, 174, 0.16))",
+          300: "var(--primary-28, rgba(24, 102, 174, 0.28))",
+          400: "var(--primary-55, rgba(24, 102, 174, 0.55))",
+          500: "var(--brand-blue, #1866AE)",
+          600: "var(--brand-blue, #1866AE)",
+          700: "var(--brand-blue, #1866AE)",
+          800: "var(--brand-blue, #1866AE)",
+          900: "var(--brand-blue, #1866AE)",
+          950: "var(--brand-blue, #1866AE)",
+          DEFAULT: "var(--brand-blue, #1866AE)",
         },
+
+        /* Slate and black neutral palette */
         navy: {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',
-          500: '#64748b',
-          600: '#475569',
-          700: '#334155',
-          800: '#1e293b',
-          850: '#15263a',
-          900: '#0f1f33',
-          950: '#071527',
+          50: "var(--slate-4, rgba(72, 87, 108, 0.04))",
+          100: "var(--slate-8, rgba(72, 87, 108, 0.08))",
+          200: "var(--slate-16, rgba(72, 87, 108, 0.16))",
+          300: "var(--slate-30, rgba(72, 87, 108, 0.3))",
+          400: "var(--slate-40, rgba(72, 87, 108, 0.55))",
+          500: "var(--brand-slate, #48576C)",
+          600: "var(--brand-slate, #48576C)",
+          700: "var(--brand-slate, #48576C)",
+          800: "var(--brand-black, #000000)",
+          850: "var(--brand-black, #000000)",
+          900: "var(--brand-black, #000000)",
+          950: "var(--brand-black, #000000)",
         },
+
+        /* Primary utilities use the official blue */
         primary: {
-          50: '#f0fdfa',
-          100: '#ccfbf1',
-          200: '#99f6e4',
-          300: '#5eead4',
-          400: '#2dd4bf',
-          500: '#14b8a6',
-          600: '#0f766e',
-          700: '#0d6b62',
-          800: '#115e59',
-          900: '#134e4a',
-          950: '#042f2e',
-          DEFAULT: '#0f766e',
+          50: "var(--primary-4, rgba(24, 102, 174, 0.04))",
+          100: "var(--primary-9, rgba(24, 102, 174, 0.09))",
+          200: "var(--primary-16, rgba(24, 102, 174, 0.16))",
+          300: "var(--primary-28, rgba(24, 102, 174, 0.28))",
+          400: "var(--primary-55, rgba(24, 102, 174, 0.55))",
+          500: "var(--brand-blue, #1866AE)",
+          600: "var(--brand-blue, #1866AE)",
+          700: "var(--brand-blue, #1866AE)",
+          800: "var(--brand-blue, #1866AE)",
+          900: "var(--brand-blue, #1866AE)",
+          950: "var(--brand-blue, #1866AE)",
+          DEFAULT: "var(--brand-blue, #1866AE)",
         },
+
+        /* Official hospital pink - mapped to CSS variable in globals.css */
         secondary: {
-          DEFAULT: '#14b8a6',
-          light: '#5eead4',
-          dark: '#0f766e',
+          DEFAULT: "var(--brand-pink, #E1194D)",
+          light: "var(--accent-12, rgba(225, 25, 77, 0.12))",
+          dark: "var(--brand-pink-hover, #BE1742)",
         },
+
         accent: {
-          DEFAULT: '#2563eb',
-          light: '#3b82f6',
-          dark: '#1d4ed8',
+          DEFAULT: "var(--brand-pink, #E1194D)",
+          light: "var(--accent-12, rgba(225, 25, 77, 0.12))",
+          dark: "var(--brand-pink-hover, #BE1742)",
         },
+
         highlight: {
-          DEFAULT: '#f59e0b',
-          light: '#fcd34d',
-          dark: '#d97706',
+          DEFAULT: "var(--brand-pink, #E1194D)",
+          light: "var(--accent-12, rgba(225, 25, 77, 0.12))",
+          dark: "var(--brand-pink-hover, #BE1742)",
         },
+
+        /* Light surfaces */
         surface: {
-          DEFAULT: '#f8fafc',
-          dark: '#f1f5f9',
-          card: '#ffffff',
+          DEFAULT: "var(--brand-white, #FFFFFF)",
+          dark: "var(--primary-4, rgba(24, 102, 174, 0.04))",
+          card: "var(--brand-white, #FFFFFF)",
         },
+
+        /* Official text colors */
         dark: {
-          DEFAULT: '#0f172a',
-          800: '#1e293b',
-          700: '#334155',
-          600: '#475569',
+          DEFAULT: "var(--brand-black, #000000)",
+          800: "var(--brand-black, #000000)",
+          700: "var(--brand-slate, #48576C)",
+          600: "var(--brand-slate, #48576C)",
         },
+
+        /* Emergency indicators use the official pink */
         emergency: {
-          DEFAULT: '#ef4444',
-          dark: '#dc2626',
-          light: '#fee2e2',
-          glow: 'rgba(239,68,68,0.35)',
+          DEFAULT: "var(--brand-pink, #E1194D)",
+          dark: "var(--brand-pink-hover, #BE1742)",
+          light: "var(--accent-8, rgba(225, 25, 77, 0.08))",
+          glow: "var(--accent-35, rgba(225, 25, 77, 0.35))",
         },
       },
+
+      /* Font families */
       fontFamily: {
-        sans: ['Geist', 'Segoe UI', 'Arial', 'sans-serif'],
-        heading: ['Geist', 'Segoe UI', 'Arial', 'sans-serif'],
-        body: ['Geist', 'Segoe UI', 'Arial', 'sans-serif'],
+        sans: [
+          "var(--font-body)",
+          "Geist",
+          "Segoe UI",
+          "Arial",
+          "sans-serif",
+        ],
+
+        heading: [
+          "var(--font-heading)",
+          "Geist",
+          "Segoe UI",
+          "Arial",
+          "sans-serif",
+        ],
+
+        body: [
+          "var(--font-body)",
+          "Geist",
+          "Segoe UI",
+          "Arial",
+          "sans-serif",
+        ],
       },
+
+      /* Shadow tokens */
       boxShadow: {
-        luxury: '0 20px 40px -15px rgba(15,118,110,0.12), 0 0 25px -5px rgba(20,184,166,0.1)',
-        'luxury-hover': '0 25px 50px -12px rgba(15,118,110,0.22), 0 0 35px -5px rgba(20,184,166,0.18)',
-        'glow-teal': '0 0 30px -5px rgba(20,184,166,0.45)',
-        'glow-blue': '0 0 30px -5px rgba(37,99,235,0.35)',
-        'glow-red': '0 0 25px -3px rgba(239,68,68,0.45)',
-        'card': '0 4px 24px -8px rgba(15,23,42,0.08)',
-        'card-hover': '0 12px 40px -8px rgba(15,23,42,0.15)',
+        luxury:
+          "0 20px 40px -15px rgba(24, 102, 174, 0.12), 0 0 25px -5px rgba(24, 102, 174, 0.08)",
+
+        "luxury-hover":
+          "0 25px 50px -12px rgba(24, 102, 174, 0.2), 0 0 35px -5px rgba(225, 25, 77, 0.12)",
+
+        "glow-teal":
+          "0 0 30px -5px rgba(24, 102, 174, 0.35)",
+
+        "glow-blue":
+          "0 0 30px -5px rgba(24, 102, 174, 0.35)",
+
+        "glow-red":
+          "0 0 25px -3px rgba(225, 25, 77, 0.4)",
+
+        card:
+          "0 4px 24px -8px rgba(0, 0, 0, 0.08)",
+
+        "card-hover":
+          "0 12px 40px -8px rgba(0, 0, 0, 0.15)",
       },
+
+      /* Animation tokens */
       animation: {
-        'pulse-subtle': 'pulse 3s cubic-bezier(0.4,0,0.6,1) infinite',
-        'float-slow': 'float 6s ease-in-out infinite',
-        'fade-up': 'fadeUp 0.6s ease-out forwards',
-        'spin-slow': 'spin 8s linear infinite',
+        "pulse-subtle":
+          "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+
+        "float-slow": "float 6s ease-in-out infinite",
+        "fade-up": "fadeUp 0.6s ease-out forwards",
+        "spin-slow": "spin 8s linear infinite",
       },
+
       keyframes: {
         float: {
-          '0%,100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-12px)' },
+          "0%, 100%": {
+            transform: "translateY(0px)",
+          },
+          "50%": {
+            transform: "translateY(-12px)",
+          },
         },
+
         fadeUp: {
-          from: { opacity: '0', transform: 'translateY(20px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
+          from: {
+            opacity: "0",
+            transform: "translateY(20px)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
         },
       },
+
+      /* Gradients */
       backgroundImage: {
-        'hero-gradient': 'linear-gradient(135deg, #0f766e 0%, #0f172a 60%, #1e293b 100%)',
-        'teal-gradient': 'linear-gradient(135deg, #0f766e 0%, #14b8a6 100%)',
-        'dark-gradient': 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
-        'mesh-teal': 'radial-gradient(at 10% 10%, rgba(15,118,110,0.15) 0px, transparent 50%), radial-gradient(at 90% 20%, rgba(20,184,166,0.1) 0px, transparent 50%), radial-gradient(at 50% 85%, rgba(37,99,235,0.06) 0px, transparent 50%)',
+        "hero-gradient":
+          "linear-gradient(135deg, var(--brand-blue, #1866AE) 0%, var(--brand-black, #000000) 100%)",
+
+        "teal-gradient":
+          "linear-gradient(135deg, var(--brand-blue, #1866AE) 0%, var(--brand-pink, #E1194D) 100%)",
+
+        "dark-gradient":
+          "linear-gradient(180deg, var(--brand-black, #000000) 0%, var(--brand-slate, #48576C) 100%)",
+
+        "mesh-teal":
+          "radial-gradient(at 10% 10%, rgba(24,102,174,0.15) 0px, transparent 50%), radial-gradient(at 90% 20%, rgba(225,25,77,0.08) 0px, transparent 50%), radial-gradient(at 50% 85%, rgba(72,87,108,0.06) 0px, transparent 50%)",
       },
     },
   },
+
   plugins: [],
 };

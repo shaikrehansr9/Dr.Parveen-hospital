@@ -17,7 +17,7 @@ export default function EmergencyActionBar({ onOpenBooking }) {
         {/* Call Emergency */}
         <a
           href={`tel:${HOSPITAL_INFO.rawPhone}`}
-          className="flex-1 flex flex-col items-center justify-center py-1.5 px-2 rounded-xl bg-red-600/90 text-white font-medium text-[11px] active:scale-95 transition-transform"
+          className="emergency-call-btn flex-1 flex flex-col items-center justify-center py-1.5 px-2 rounded-xl text-white font-medium text-[11px] active:scale-95 transition-transform"
         >
           <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center mb-0.5">
             <Phone className="w-3.5 h-3.5 text-white animate-pulse" />
@@ -30,7 +30,7 @@ export default function EmergencyActionBar({ onOpenBooking }) {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 flex flex-col items-center justify-center py-1.5 px-2 rounded-xl bg-emerald-600/90 text-white font-medium text-[11px] active:scale-95 transition-transform"
+          className="emergency-whatsapp-btn flex-1 flex flex-col items-center justify-center py-1.5 px-2 rounded-xl text-white font-medium text-[11px] active:scale-95 transition-transform"
         >
           <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center mb-0.5">
             <MessageCircle className="w-3.5 h-3.5 text-white" />
@@ -42,7 +42,7 @@ export default function EmergencyActionBar({ onOpenBooking }) {
         <button
           type="button"
           onClick={onOpenBooking}
-          className="flex-[1.4] flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 text-white font-bold text-xs shadow-md shadow-brand-500/30 active:scale-95 transition-transform"
+          className="emergency-booking-btn flex-[1.4] flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-white font-bold text-xs shadow-md shadow-brand-500/30 active:scale-95 transition-transform"
         >
           <Calendar className="w-4 h-4 shrink-0" />
           <span>Book Visit</span>

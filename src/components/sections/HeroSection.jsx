@@ -1,292 +1,332 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useInView,
+  useReducedMotion,
+} from "framer-motion";
 import {
   ArrowRight,
-  Clock3,
+  ChevronLeft,
+  ChevronRight,
   MapPin,
-  MessageCircle,
-  Phone,
-  ShieldCheck,
-  Star,
-  Baby,
   Stethoscope,
-  Award,
-  CheckCircle2,
+  Calendar,
 } from "lucide-react";
-import { HOSPITAL_INFO, LEAD_DOCTOR } from "@/lib/constants";
-import { getWhatsAppUrl } from "@/lib/utils";
+import { HOSPITAL_INFRASTRUCTURE } from "@/lib/constants";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: (delay = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1], delay },
-  }),
-};
+const HERO_IMAGE =
+  "/assets/hero/Golden%20Hour%20Maternity%20Portrait.png";
 
-const STATS = [
-  { value: "5000+", label: "Safe Deliveries", icon: Baby },
-  { value: "10+", label: "Years Experience", icon: Award },
-  { value: "24/7", label: "Emergency Care", icon: ShieldCheck },
-  { value: "4.9★", label: "Patient Rating", icon: Star },
+const PANEL_BUTTON_CLASS =
+  "hero-panel-btn sm:h-11 sm:text-xs";
+
+const PANEL_BUTTON_LABEL_CLASS =
+  "flex items-center px-5 sm:px-6";
+
+const PANEL_BUTTON_ARROW_CLASS =
+  "hero-panel-btn-arrow";
+
+const INTERIOR_SLIDES = HOSPITAL_INFRASTRUCTURE.filter((item) => {
+  const imagePath = String(item.image || "").toLowerCase();
+  const title = String(item.title || "").toLowerCase();
+  const id = String(item.id || "").toLowerCase();
+
+  return (
+    id !== "hospital-exterior" &&
+    !imagePath.includes("reception") &&
+    !imagePath.includes("pamplat") &&
+    !imagePath.includes("pamphlet") &&
+    !imagePath.includes("a5") &&
+    !title.includes("reception") &&
+    !title.includes("pamphlet")
+  );
+}).map((item) => ({
+  id: item.id,
+  image: item.image,
+  alt: item.title,
+  position: "center center",
+}));
+
+const HERO_SLIDES = [
+  {
+    id: "maternity-hero",
+    image: HERO_IMAGE,
+    alt: "Expectant mother in warm golden-hour light",
+    position: "76% center",
+  },
+  ...INTERIOR_SLIDES,
 ];
 
 export default function HeroSection({ onOpenBooking }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const prefersReducedMotion = useReducedMotion();
-  const variants = prefersReducedMotion
-    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
-    : fadeUp;
+  const touchStartX = useRef(null);
+  const navigationTargetRef = useRef(0);
+  const requestIdRef = useRef(0);
 
-  const whatsappUrl = getWhatsAppUrl(
-    HOSPITAL_INFO.whatsappPhone,
-    "Hello Dr. Parween's Hospital, I would like to book a consultation."
-  );
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const prefersReducedMotion = useReducedMotion();
+
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  // Preload before changing slides so the previous image stays visible.
+  const showSlide = (index) => {
+    if (typeof window === "undefined" || HERO_SLIDES.length < 2) return;
+
+    const nextIndex =
+      ((index % HERO_SLIDES.length) + HERO_SLIDES.length) %
+      HERO_SLIDES.length;
+
+    navigationTargetRef.current = nextIndex;
+
+    const requestId = ++requestIdRef.current;
+    const preload = new window.Image();
+
+    preload.onload = () => {
+      if (requestId !== requestIdRef.current) return;
+      setActiveSlide(nextIndex);
+    };
+
+    preload.onerror = () => {
+      if (requestId !== requestIdRef.current) return;
+
+      // Keep the current image instead of switching to a broken image.
+      navigationTargetRef.current = activeSlide;
+    };
+
+    preload.src = HERO_SLIDES[nextIndex].image;
+
+    // Cached images may already be complete.
+    if (preload.complete && preload.naturalWidth > 0) {
+      setActiveSlide(nextIndex);
+    }
+  };
+
+  const nextSlide = () => {
+    showSlide(navigationTargetRef.current + 1);
+  };
+
+  const previousSlide = () => {
+    showSlide(navigationTargetRef.current - 1);
+  };
+
+  // The timer restarts after a slide changes.
+  useEffect(() => {
+    if (HERO_SLIDES.length < 2) return undefined;
+
+    const timer = window.setTimeout(() => {
+      showSlide((activeSlide + 1) % HERO_SLIDES.length);
+    }, 3500);
+
+    return () => window.clearTimeout(timer);
+  }, [activeSlide]);
+
+  const handleTouchStart = (event) => {
+    touchStartX.current = event.changedTouches[0].clientX;
+  };
+
+  const handleTouchEnd = (event) => {
+    if (touchStartX.current === null) return;
+
+    const difference =
+      event.changedTouches[0].clientX - touchStartX.current;
+
+    if (difference > 50) {
+      previousSlide();
+    } else if (difference < -50) {
+      nextSlide();
+    }
+
+    touchStartX.current = null;
+  };
+
+  const activeImage = HERO_SLIDES[activeSlide];
 
   return (
-    <section className="relative overflow-hidden hero-bg flex items-center" ref={ref}>
-      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div className="absolute -right-32 top-20 h-96 w-96 rounded-full border border-primary-100/70" />
-        <div className="absolute -right-20 top-32 h-72 w-72 rounded-full border border-primary-100/60" />
-      </div>
-
-      <div className="relative mx-auto w-full max-w-7xl px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-16">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-
-          {/* LEFT: Text Content */}
-          <div className="relative z-10">
-            <motion.div
-              custom={0}
-              variants={variants}
-              initial="hidden"
-              animate={inView ? "visible" : prefersReducedMotion ? "visible" : "hidden"}
-              className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary-100 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-primary-900 shadow-sm"
-            >
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary-50">
-                <Stethoscope className="h-3 w-3 text-primary-800" />
-              </span>
-              Best Hospital in Sangareddy · Since 2014
-            </motion.div>
-
-            <motion.h1
-              custom={0.1}
-              variants={variants}
-              initial="hidden"
-              animate={inView ? "visible" : prefersReducedMotion ? "visible" : "hidden"}
-              className="text-[2.6rem] font-extrabold leading-[1.08] tracking-[-0.04em] text-navy-950 sm:text-5xl lg:text-[3.6rem] xl:text-[4rem]"
-            >
-              Expert Care for{" "}
-              <span className="relative inline-block">
-                <span className="text-primary-800">
-                  Every Woman
-                </span>
-              </span>
-              {" "}&amp; Family
-            </motion.h1>
-
-            <motion.p
-              custom={0.2}
-              variants={variants}
-              initial="hidden"
-              animate={inView ? "visible" : prefersReducedMotion ? "visible" : "hidden"}
-              className="mt-5 max-w-xl text-base leading-[1.8] text-slate-700 sm:text-lg"
-            >
-              Dr. Parween&apos;s Hospital offers world-class obstetrics, gynecology, laparoscopic surgery, internal
-              medicine, pediatrics, and diagnostics — all under one compassionate roof.
-            </motion.p>
-
-            <motion.blockquote
-              custom={0.25}
-              variants={variants}
-              initial="hidden"
-              animate={inView ? "visible" : prefersReducedMotion ? "visible" : "hidden"}
-              className="mt-5 border-l-4 border-primary-500 pl-4 text-base font-semibold leading-relaxed text-primary-950 sm:text-lg"
-            >
-              “Your health deserves time, respect, and a clear plan.”
-            </motion.blockquote>
-
-            <motion.div
-              custom={0.3}
-              variants={variants}
-              initial="hidden"
-              animate={inView ? "visible" : prefersReducedMotion ? "visible" : "hidden"}
-              className="mt-8 flex flex-wrap gap-3"
-            >
-              <button
-                onClick={onOpenBooking}
-                className="group inline-flex min-h-12 items-center gap-2.5 rounded-xl bg-primary-800 px-6 py-3.5 text-base font-bold text-white shadow-md transition-colors duration-200 hover:bg-primary-900 focus-visible:outline-offset-4"
-              >
-                Book an Appointment
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </button>
-
-              <a
-                href={`tel:${HOSPITAL_INFO.rawPhone}`}
-                className="inline-flex min-h-12 items-center gap-2.5 rounded-xl border border-slate-300 bg-white px-5 py-3.5 text-base font-bold text-navy-950 transition-colors duration-200 hover:border-primary-700 hover:text-primary-900"
-              >
-                <Phone className="h-4 w-4" />
-                Call {HOSPITAL_INFO.phone}
-              </a>
-
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-12 items-center gap-2.5 rounded-xl border border-emerald-700/30 bg-emerald-50 px-5 py-3.5 text-base font-bold text-emerald-900 transition-colors duration-200 hover:bg-emerald-100"
-              >
-                <MessageCircle className="h-4 w-4" />
-                WhatsApp
-              </a>
-            </motion.div>
-
-            <motion.div
-              custom={0.4}
-              variants={variants}
-              initial="hidden"
-              animate={inView ? "visible" : prefersReducedMotion ? "visible" : "hidden"}
-              className="mt-8 flex flex-wrap gap-x-6 gap-y-3"
-            >
-              {[
-                { icon: ShieldCheck, label: "Ethical & Transparent Care" },
-                { icon: Clock3, label: "24/7 Emergency Support" },
-                { icon: MapPin, label: "Sangareddy, Telangana" },
-              ].map(({ icon: Icon, label }) => (
-                <span key={label} className="inline-flex items-center gap-2 text-sm font-medium text-slate-700">
-                  <Icon className="h-4 w-4 text-primary-800" />
-                  {label}
-                </span>
-              ))}
-            </motion.div>
-
-            <motion.div
-              custom={0.5}
-              variants={variants}
-              initial="hidden"
-              animate={inView ? "visible" : prefersReducedMotion ? "visible" : "hidden"}
-              className="mt-9 flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
-            >
-              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-primary-200">
-                <Image
-                  src={LEAD_DOCTOR.imageNoBg || LEAD_DOCTOR.image}
-                  alt={LEAD_DOCTOR.name}
-                  fill
-                  quality={90}
-                  className="object-cover object-top"
-                  sizes="56px"
-                />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-navy-950">{LEAD_DOCTOR.name}</p>
-                <p className="text-xs text-slate-600">{LEAD_DOCTOR.degrees}</p>
-                <p className="mt-0.5 text-xs font-semibold text-primary-900">Chief Consultant Gynecologist &amp; Obstetrician</p>
-              </div>
-              <Link
-                href="/doctors"
-                className="ml-auto inline-flex shrink-0 items-center gap-1 text-xs font-bold text-primary-900 transition-colors hover:text-primary-700"
-              >
-                View Profile <ArrowRight className="h-3 w-3" />
-              </Link>
-            </motion.div>
-          </div>
-
-          {/* RIGHT: Visual Panel */}
+    <section
+      id="home"
+      ref={ref}
+      className="relative isolate overflow-visible bg-white"
+    >
+      {/* Hero image slider */}
+      <div
+        className="hero-slider-wrap group relative h-[390px] sm:h-[470px] md:h-[520px] lg:h-[600px] xl:h-[620px]"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        aria-label="Hospital image slider"
+      >
+        <AnimatePresence initial={false} mode="sync">
           <motion.div
-            initial={prefersReducedMotion ? false : { opacity: 0, x: 12 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-            className="relative mx-auto w-full max-w-[520px] lg:max-w-none"
+            key={activeImage.id}
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              duration: prefersReducedMotion ? 0 : 0.5,
+              ease: "linear",
+            }}
           >
-            <div className="hero-image-frame relative aspect-[4/4.5] overflow-hidden rounded-[2rem] border border-white shadow-xl sm:rounded-[2.5rem]">
-              <Image
-                src="/assets/hero/doctor.webp"
-                alt="A physician ready to provide compassionate care"
-                fill
-                quality={90}
-                priority
-                sizes="(max-width: 1024px) 90vw, 48vw"
-                className="object-cover object-center"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-950/75 via-transparent to-transparent" />
+            <Image
+              src={activeImage.image}
+              alt={activeImage.alt}
+              fill
+              priority={activeSlide === 0}
+              quality={95}
+              unoptimized
+              sizes="100vw"
+              className="object-cover"
+              style={{
+                objectPosition: activeImage.position || "center center",
+              }}
+            />
+          </motion.div>
+        </AnimatePresence>
 
-              <div className="absolute bottom-0 inset-x-0 p-6 sm:p-8">
-                <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-white/90">
-                  Dr. Parween&apos;s Hospital · Sangareddy
-                </p>
-                <h2 className="text-2xl font-bold leading-tight text-white sm:text-3xl">
-                  Care for every chapter of life.
-                </h2>
-                <a
-                  href={HOSPITAL_INFO.address.googleMapsDirectionsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-2 text-base font-semibold text-white underline decoration-white/70 underline-offset-4 transition-colors hover:text-primary-100"
-                >
-                  <MapPin className="h-4 w-4" />
-                  Get Directions
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </a>
-              </div>
-            </div>
+        {/* Subtle overlay to retain photograph detail */}
+        <div
+          className="hero-overlay-gradient pointer-events-none absolute inset-0"
+          aria-hidden="true"
+        />
 
-            <div
-              className="absolute -bottom-4 -left-2 flex max-w-[220px] items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-lg sm:-left-8"
+        {/* Main heading and appointment button */}
+        <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-5 sm:px-8 lg:px-10">
+          <motion.div
+            initial={
+              prefersReducedMotion ? false : { opacity: 0, x: -18 }
+            }
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{
+              duration: prefersReducedMotion ? 0 : 0.55,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="w-full max-w-[760px]"
+          >
+            <h1 className="hero-headline md:whitespace-nowrap">
+              Comprehensive Care
+            </h1>
+
+            <button
+              type="button"
+              onClick={onOpenBooking}
+              className="hero-appointment-btn mt-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 sm:mt-7 sm:px-6 sm:text-sm"
             >
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emergency-light text-emergency">
-                <Phone className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-emergency">
-                  Emergency · 24/7
-                </p>
-                <a href={`tel:${HOSPITAL_INFO.rawPhone}`} className="mt-0.5 block text-sm font-bold text-dark">
-                  {HOSPITAL_INFO.phone}
-                </a>
-              </div>
-            </div>
-
-            <div
-              className="absolute right-2 top-5 flex items-center gap-2.5 rounded-2xl border border-slate-200 bg-white p-3.5 shadow-lg sm:-right-6 sm:top-8"
-            >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-                <MessageCircle className="h-4 w-4" />
-              </div>
-              <div>
-                <p className="text-[10px] font-bold text-emerald-700">WhatsApp</p>
-                <p className="text-xs font-medium text-slate-700">Chat with us</p>
-              </div>
-            </div>
-
-            <div
-              className="absolute right-2 top-24 rounded-xl bg-primary-900 px-3 py-2 text-center shadow-lg sm:-right-4 sm:top-28"
-            >
-              <p className="text-xs font-bold text-white">7 Specialties</p>
-              <p className="text-xs font-extrabold text-white">Under One Roof</p>
-            </div>
+              <span>Appointment Request</span>
+              <ArrowRight className="h-5 w-5 shrink-0" />
+            </button>
           </motion.div>
         </div>
 
-        {/* STATS BAR */}
-        <motion.div
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.45, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
-          className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 shadow-sm sm:grid-cols-4"
-        >
-          {STATS.map(({ value, label, icon: Icon }) => (
-            <div key={label} className="flex flex-col items-center gap-1.5 bg-white px-4 py-5 text-center sm:py-6">
-              <Icon className="mb-1 h-5 w-5 text-primary-800" />
-              <span className="text-2xl font-extrabold tracking-tight text-navy-950 sm:text-3xl">{value}</span>
-              <span className="text-xs font-semibold text-slate-700">{label}</span>
+        {/* Navigation arrows */}
+        {HERO_SLIDES.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={previousSlide}
+              aria-label="Previous hospital image"
+              className="hero-nav-arrow left-3 h-10 w-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:left-5 sm:h-11 sm:w-11"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+
+            <button
+              type="button"
+              onClick={nextSlide}
+              aria-label="Next hospital image"
+              className="hero-nav-arrow right-3 h-10 w-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:right-5 sm:h-11 sm:w-11"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+
+            {/* Slide indicators */}
+            <div className="absolute bottom-24 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2.5">
+              {HERO_SLIDES.map((slide, index) => (
+                <button
+                  key={slide.id}
+                  type="button"
+                  onClick={() => showSlide(index)}
+                  aria-label={`Show slide ${index + 1} of ${HERO_SLIDES.length}`}
+                  aria-pressed={activeSlide === index}
+                  className={`hero-indicator-dot ${activeSlide === index ? "is-active" : ""}`}
+                />
+              ))}
             </div>
-          ))}
-        </motion.div>
+          </>
+        )}
       </div>
+
+      {/* Three coordinated action panels */}
+      <div className="relative z-30 mx-auto -mt-5 max-w-[1095px] px-4 sm:-mt-7 lg:-mt-[86px]">
+        <div className="grid grid-cols-1 overflow-hidden rounded-sm shadow-xl md:grid-cols-3">
+          {/* Our Locations */}
+          <div className="hero-panel-locations flex min-h-[140px] min-w-0 flex-col items-start gap-4 px-4 pb-5 pt-5 sm:px-5 lg:px-[22px]">
+            <div className="flex min-w-0 items-center gap-2.5 text-white sm:gap-3">
+              <MapPin className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
+              <p className="whitespace-nowrap text-sm font-bold leading-tight sm:text-base">
+                Our Locations
+              </p>
+            </div>
+
+            <Link href="/contact" className={PANEL_BUTTON_CLASS}>
+              <span className={PANEL_BUTTON_LABEL_CLASS}>
+                Learn More
+              </span>
+              <span className={PANEL_BUTTON_ARROW_CLASS}>
+                <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+          </div>
+
+          {/* Your First Visit */}
+          <div className="hero-panel-visit flex min-h-[140px] min-w-0 flex-col items-start gap-4 px-4 pb-5 pt-5 sm:px-5 lg:px-[22px]">
+            <div className="flex min-w-0 items-center gap-2.5 text-white sm:gap-3">
+              <Stethoscope className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
+              <p className="whitespace-nowrap text-sm font-bold leading-tight sm:text-base">
+                Your First Visit
+              </p>
+            </div>
+
+            <Link href="/about" className={PANEL_BUTTON_CLASS}>
+              <span className={PANEL_BUTTON_LABEL_CLASS}>
+                Learn More
+              </span>
+              <span className={PANEL_BUTTON_ARROW_CLASS}>
+                <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+          </div>
+
+          {/* Appointment Request */}
+          <div className="hero-panel-appointment flex min-h-[140px] min-w-0 flex-col items-start gap-4 px-4 pb-5 pt-5 sm:px-5 lg:px-[22px]">
+            <div className="flex min-w-0 items-center gap-2.5 text-white sm:gap-3">
+              <Calendar className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
+              <p className="whitespace-nowrap text-sm font-bold leading-tight sm:text-base">
+                Appointment Request
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={onOpenBooking}
+              className={PANEL_BUTTON_CLASS}
+            >
+              <span className={PANEL_BUTTON_LABEL_CLASS}>
+                Learn More
+              </span>
+              <span className={PANEL_BUTTON_ARROW_CLASS}>
+                <ArrowRight className="h-4 w-4" />
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Space below the panels */}
+      <div className="h-6 sm:h-8 lg:h-12" />
     </section>
   );
 }
