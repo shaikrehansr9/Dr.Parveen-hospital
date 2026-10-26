@@ -1468,9 +1468,6 @@ section[id], main[id] {
 } */
 
 
-/* =========================================================================
-   15. SECTION: SPECIALIST DOCTORS
-   ========================================================================= */
    
 /* =========================================================================
    15. SECTION: SPECIALIST DOCTORS
@@ -1990,5 +1987,198 @@ section[id], main[id] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     transition-delay: 0ms !important;
+  }
+}
+
+/* =========================================
+   Services Mega Menu
+   Full-width panel below the navbar
+   ========================================= */
+
+.hospital-navbar__mega-menu,
+.hospital-navbar__dropdown {
+  position: fixed;
+  top: var(--navbar-height, 92px);
+  left: 0;
+  right: 0;
+  z-index: 9999;
+
+  width: 100%;
+  max-width: none;
+  height: calc(100vh - var(--navbar-height, 92px));
+  max-height: calc(100vh - var(--navbar-height, 92px));
+
+  margin: 0;
+  padding: 28px 5vw 36px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  box-sizing: border-box;
+  background: #fff;
+  border: none;
+  border-radius: 0;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 10%);
+}
+
+/* Header */
+
+.hospital-navbar__mega-menu-header,
+.hospital-navbar__dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto 28px;
+}
+
+/* Grid */
+
+.hospital-navbar__mega-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-content: start;
+  gap: 30px 24px;
+
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* Support the existing dropdown list class too */
+
+.hospital-navbar__dropdown-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 15px;
+  
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.hospital-navbar__service-description {
+  display: block;
+  width: 100%;
+  color: var(--brand-slate);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}   
+/* Service item */
+
+.hospital-navbar__mega-menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  min-width: 0;
+  padding: 8px;
+
+  color: inherit;
+  text-align: center;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+
+  transition: background-color var(--transition-fast);
+}
+
+.hospital-navbar__mega-menu-item:hover {
+  background: var(--primary-45);
+}
+
+/* Image thumbnail containers */
+
+.hospital-navbar__mega-menu-image,
+.hospital-navbar__service-thumbnail {
+  position: relative;
+  display: block;
+  flex: 0 0 120px;
+
+  width: 120px;
+  height: 120px;
+  max-width: 100%;
+
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--primary-9);
+}
+
+/* Keep Next.js images inside their thumbnail */
+
+.hospital-navbar__mega-menu-image img,
+.hospital-navbar__service-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Service names */
+
+.hospital-navbar__mega-menu-title {
+  display: block;
+  width: 100%;
+
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+/* Desktop dropdown item alignment */
+
+.hospital-navbar__service-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  
+  min-width: 0;
+  padding: 12px;
+  border-radius: var(--radius-md);
+}
+
+/* Responsive grid */
+
+@media (max-width: 1100px) {
+  .hospital-navbar__mega-menu-grid,
+  .hospital-navbar__dropdown-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px 16px;
+  }
+
+  .hospital-navbar__mega-menu-image,
+  .hospital-navbar__service-thumbnail {
+    flex-basis: 100px;
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 700px) {
+  .hospital-navbar__mega-menu,
+  .hospital-navbar__dropdown {
+    padding: 20px 16px 28px;
+  }
+
+  .hospital-navbar__mega-menu-grid,
+  .hospital-navbar__dropdown-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px 10px;
+  }
+
+  .hospital-navbar__mega-menu-image,
+  .hospital-navbar__service-thumbnail {
+    flex-basis: 76px;
+    width: 76px;
+    height: 76px;
+  }
+
+  .hospital-navbar__mega-menu-title {
+    font-size: 20px;
   }
 }

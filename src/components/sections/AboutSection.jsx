@@ -122,7 +122,7 @@ export default function AboutSection({ onOpenBooking }) {
               className="group relative ml-[5%] aspect-[4/5] w-[80%] overflow-hidden rounded-[2rem] border-4 border-white bg-white shadow-xl shadow-navy-500/10 transition-shadow duration-500 hover:shadow-2xl hover:shadow-secondary/10 motion-reduce:transform-none"
             >
               <Image
-                src="/assets/doctors/dr-parween.png"
+                src="/assets/gallery/facility-3.png"
                 alt={LEAD_DOCTOR.name}
                 fill
                 priority
@@ -132,15 +132,15 @@ export default function AboutSection({ onOpenBooking }) {
               />
 
               {/* Founding Director badge */}
-              <div className="absolute left-3 top-3 z-10 sm:left-4 sm:top-4">
+              {/* <div className="absolute left-3 top-3 z-10 sm:left-4 sm:top-4">
                 <span className="about-director-badge inline-flex items-center gap-2 rounded-full px-3 py-2 text-[10px] font-extrabold uppercase tracking-wider shadow-md sm:text-xs">
                   <span className="h-1.5 w-1.5 rounded-full bg-white" />
                   Founding Director
                 </span>
-              </div>
+              </div> */}
 
               {/* Doctor name overlay */}
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent px-4 pb-5 pt-20 text-white sm:px-5 sm:pb-6">
+              {/* <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent px-4 pb-5 pt-20 text-white sm:px-5 sm:pb-6">
                 <div className="about-accent-bar mb-2 h-1 w-9 rounded-full" />
 
                 <h3 className="font-heading text-lg font-extrabold sm:text-xl">
@@ -150,7 +150,7 @@ export default function AboutSection({ onOpenBooking }) {
                 <p className="mt-1 text-xs leading-relaxed text-white/85 sm:text-sm">
                   {LEAD_DOCTOR.degrees}
                 </p>
-              </div>
+              </div> */}
             </motion.div>
 
             {/* Supporting reception photo */}

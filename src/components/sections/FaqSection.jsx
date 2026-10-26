@@ -1,18 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  ChevronDown,
-  Phone,
-  MessageCircle,
-} from "lucide-react";
+import { ChevronDown, Phone, MessageCircle } from "lucide-react";
 
 import {
   HOSPITAL_FAQS,
   HOSPITAL_INFO,
-  LEAD_DOCTOR,
 } from "@/lib/constants";
 import { getWhatsAppUrl } from "@/lib/utils";
 
@@ -98,49 +92,6 @@ export default function FaqSection() {
                 patient care for your convenience.
               </p>
             </div>
-
-            {/* Doctor portrait */}
-            <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.985 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.7, ease, delay: 0.08 }}
-              whileHover={{ y: -4 }}
-              className="faq-doctor-card group relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl shadow-lg motion-reduce:transform-none"
-            >
-              <Image
-                src="/assets/doctors/dr-parween.png"
-                alt={LEAD_DOCTOR.name}
-                fill
-                quality={90}
-                sizes="(max-width: 768px) 100vw, 40vw"
-                className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.035] motion-reduce:transform-none motion-reduce:transition-none"
-              />
-
-              {/* Doctor information overlay */}
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/65 to-transparent px-5 pb-5 pt-20 text-white">
-                <div className="mb-2 flex items-center gap-2">
-                  <span className="faq-accent-bar h-1 w-6 rounded-full" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-white/85">
-                    Patient Care
-                  </span>
-                </div>
-
-                <h3 className="font-heading text-xl font-extrabold text-white">
-                  {LEAD_DOCTOR.name}
-                </h3>
-
-                <p className="mt-1 text-sm leading-relaxed text-white/80">
-                  {LEAD_DOCTOR.degrees}
-                </p>
-              </div>
-
-              {/* Subtle frame accent */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/20"
-              />
-            </motion.div>
 
             {/* Contact card */}
             <motion.div

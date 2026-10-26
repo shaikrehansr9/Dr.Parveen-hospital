@@ -239,13 +239,13 @@ export const HOSPITAL_INFRASTRUCTURE = [
     description: "Quiet, hygienic recovery rooms specially designed for new mothers and their newborns.",
     image: "/assets/gallery/facility-2.png"
   },
-  {
-    id: "deluxe-cabin-3",
-    title: "Post-Operative Observation Unit",
-    category: "Cabin & Rooms",
-    description: "Continuous vital signs tracking and clinical observation post-surgical procedures.",
-    image: "/assets/gallery/facility-3.png"
-  }
+  // {
+  //   id: "deluxe-cabin-3",
+  //   title: "Post-Operative Observation Unit",
+  //   category: "Cabin & Rooms",
+  //   description: "Continuous vital signs tracking and clinical observation post-surgical procedures.",
+  //   image: "/assets/gallery/facility-3.png"
+  // }
 ];
 
 export const PATIENT_TESTIMONIALS = [

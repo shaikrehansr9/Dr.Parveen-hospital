@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+
 import {
   Menu,
   X,
@@ -22,7 +23,6 @@ import {
   MapPin,
   Clock,
   Dumbbell,
-  Sparkles,
 } from "lucide-react";
 
 import { HOSPITAL_INFO, MEDICAL_SERVICES } from "@/lib/constants";
@@ -71,13 +71,26 @@ export default function Navbar({ onOpenBooking }) {
     };
 
     onScroll();
+
     window.addEventListener("scroll", onScroll, { passive: true });
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   /* ScrollSpy IntersectionObserver for Single Page */
   useEffect(() => {
-    const sectionIds = ["home", "about", "services", "why-us", "doctors", "gallery", "testimonials", "faq", "contact"];
+    const sectionIds = [
+      "home",
+      "about",
+      "services",
+      "why-us",
+      "doctors",
+      "gallery",
+      "testimonials",
+      "faq",
+      "contact",
+    ];
+
     const sectionElements = sectionIds
       .map((id) => document.getElementById(id))
       .filter(Boolean);
@@ -98,7 +111,8 @@ export default function Navbar({ onOpenBooking }) {
       }
     );
 
-    sectionElements.forEach((el) => observer.observe(el));
+    sectionElements.forEach((element) => observer.observe(element));
+
     return () => observer.disconnect();
   }, [pathname]);
 
@@ -106,7 +120,10 @@ export default function Navbar({ onOpenBooking }) {
   useEffect(() => {
     if (typeof window !== "undefined" && window.location.hash) {
       const hash = window.location.hash.replace("#", "");
-      if (hash) setActiveSection(hash);
+
+      if (hash) {
+        setActiveSection(hash);
+      }
     }
   }, []);
 
@@ -115,6 +132,7 @@ export default function Navbar({ onOpenBooking }) {
     if (!mobileOpen) return undefined;
 
     const originalOverflow = document.body.style.overflow;
+
     document.body.style.overflow = "hidden";
     mobileCloseButtonRef.current?.focus();
 
@@ -128,7 +146,10 @@ export default function Navbar({ onOpenBooking }) {
       if (event.key !== "Tab") return;
 
       const drawer = document.getElementById("mobile-navigation-drawer");
-      const focusable = drawer?.querySelectorAll('a[href], button:not([disabled])');
+      const focusable = drawer?.querySelectorAll(
+        'a[href], button:not([disabled])'
+      );
+
       if (!focusable?.length) return;
 
       const first = focusable[0];
@@ -170,6 +191,7 @@ export default function Navbar({ onOpenBooking }) {
     if (closeTimer.current) {
       clearTimeout(closeTimer.current);
     }
+
     setDropdownOpen(true);
   };
 
@@ -177,26 +199,31 @@ export default function Navbar({ onOpenBooking }) {
     if (closeTimer.current) {
       clearTimeout(closeTimer.current);
     }
+
     closeTimer.current = setTimeout(() => {
       setDropdownOpen(false);
     }, 180);
   };
 
-  const scrollToAnchor = useCallback((targetId) => {
-    closeMenu();
-    setActiveSection(targetId);
+  const scrollToAnchor = useCallback(
+    (targetId) => {
+      closeMenu();
+      setActiveSection(targetId);
 
-    if (pathname !== "/") {
-      window.location.href = `/#${targetId}`;
-      return;
-    }
+      if (pathname !== "/") {
+        window.location.href = `/#${targetId}`;
+        return;
+      }
 
-    const element = document.getElementById(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      window.history.pushState(null, "", `#${targetId}`);
-    }
-  }, [pathname]);
+      const element = document.getElementById(targetId);
+
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        window.history.pushState(null, "", `#${targetId}`);
+      }
+    },
+    [pathname]
+  );
 
   const handleNavClick = (event, item) => {
     event.preventDefault();
@@ -205,7 +232,9 @@ export default function Navbar({ onOpenBooking }) {
 
   const handleServiceSelect = (event, service) => {
     event.preventDefault();
+
     scrollToAnchor("services");
+
     setTimeout(() => {
       window.dispatchEvent(
         new CustomEvent("open-service-modal", {
@@ -222,8 +251,10 @@ export default function Navbar({ onOpenBooking }) {
       <a
         key={item.href}
         href={item.href}
-        onClick={(e) => handleNavClick(e, item)}
-        className={`hospital-navbar__link ${active ? "is-active" : ""}`}
+        onClick={(event) => handleNavClick(event, item)}
+        className={`hospital-navbar__link ${
+          active ? "is-active" : ""
+        }`}
         aria-current={active ? "page" : undefined}
         aria-haspopup={item.dropdown ? "true" : undefined}
         aria-expanded={item.dropdown ? dropdownOpen : undefined}
@@ -248,8 +279,10 @@ export default function Navbar({ onOpenBooking }) {
       <a
         key={item.href}
         href={item.href}
-        onClick={(e) => handleNavClick(e, item)}
-        className={`hospital-mobile-link ${active ? "is-active" : ""}`}
+        onClick={(event) => handleNavClick(event, item)}
+        className={`hospital-mobile-link ${
+          active ? "is-active" : ""
+        }`}
         aria-current={active ? "page" : undefined}
       >
         <span>{item.label}</span>
@@ -273,8 +306,8 @@ export default function Navbar({ onOpenBooking }) {
                 href="#home"
                 aria-label="Dr. Parween's Hospital — Home"
                 className="hospital-navbar__logo-link"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={(event) => {
+                  event.preventDefault();
                   scrollToAnchor("home");
                 }}
               >
@@ -341,6 +374,7 @@ export default function Navbar({ onOpenBooking }) {
                               <p className="hospital-navbar__dropdown-heading">
                                 Medical Departments
                               </p>
+
                               <p className="hospital-navbar__dropdown-subheading">
                                 Explore our specialist care in Sangareddy
                               </p>
@@ -349,8 +383,8 @@ export default function Navbar({ onOpenBooking }) {
                             <a
                               href="#services"
                               className="hospital-navbar__dropdown-all"
-                              onClick={(e) => {
-                                e.preventDefault();
+                              onClick={(event) => {
+                                event.preventDefault();
                                 scrollToAnchor("services");
                               }}
                             >
@@ -360,43 +394,48 @@ export default function Navbar({ onOpenBooking }) {
                           </div>
 
                           <div className="hospital-navbar__dropdown-list">
-                            {MEDICAL_SERVICES.map((service, index) => {
-                              const Icon =
-                                SERVICE_ICONS[service.id] || HeartPulse;
-
-                              return (
-                                <motion.div
-                                  key={service.id}
-                                  initial={{ opacity: 0, x: -6 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{
-                                    duration: 0.18,
-                                    delay: index * 0.02,
-                                    ease: smoothEase,
-                                  }}
+                            {MEDICAL_SERVICES.map((service, index) => (
+                              <motion.div
+                                key={service.id}
+                                initial={{ opacity: 0, x: -6 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{
+                                  duration: 0.18,
+                                  delay: index * 0.02,
+                                  ease: smoothEase,
+                                }}
+                              >
+                                <a
+                                  href="#services"
+                                  onClick={(event) =>
+                                    handleServiceSelect(event, service)
+                                  }
+                                  className="hospital-navbar__service-link"
                                 >
-                                  <a
-                                    href="#services"
-                                    onClick={(e) => handleServiceSelect(e, service)}
-                                    className="hospital-navbar__service-link"
-                                  >
-                                    <span className="hospital-navbar__service-icon">
-                                      <Icon size={21} />
+                                  {/* Service image */}
+                                  <span className="hospital-navbar__service-thumbnail">
+                                    <Image
+                                      src={service.image}
+                                      alt=""
+                                      fill
+                                      sizes="48px"
+                                      className="object-cover"
+                                    />
+                                  </span>
+
+                                  {/* Service information */}
+                                  <span className="min-w-0 flex-1">
+                                    <span className="hospital-navbar__service-title block">
+                                      {service.title}
                                     </span>
 
-                                    <span className="min-w-0 flex-1">
-                                      <span className="hospital-navbar__service-title block">
-                                        {service.title}
-                                      </span>
-
-                                      <span className="hospital-navbar__service-description block">
-                                        {service.shortDescription}
-                                      </span>
+                                    <span className="hospital-navbar__service-description block">
+                                      {service.shortDescription}
                                     </span>
-                                  </a>
-                                </motion.div>
-                              );
-                            })}
+                                  </span>
+                                </a>
+                              </motion.div>
+                            ))}
                           </div>
                         </motion.div>
                       )}
@@ -417,6 +456,7 @@ export default function Navbar({ onOpenBooking }) {
                 className="hospital-navbar__booking-icon"
                 aria-hidden="true"
               />
+
               <span className="hospital-navbar__booking-text">
                 Book Appointment
               </span>
@@ -473,8 +513,8 @@ export default function Navbar({ onOpenBooking }) {
               <div className="hospital-mobile-drawer__header">
                 <a
                   href="#home"
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={(event) => {
+                    event.preventDefault();
                     scrollToAnchor("home");
                   }}
                   className="hospital-navbar__logo-link"
@@ -522,15 +562,19 @@ export default function Navbar({ onOpenBooking }) {
                 <div className="hospital-mobile-drawer__nav-list">
                   {[
                     { href: "#home", label: "Home", id: "home" },
-                    { href: "#about", label: "About Hospital", id: "about" },
+                    {
+                      href: "#about",
+                      label: "About Hospital",
+                      id: "about",
+                    },
                   ].map(renderMobileLink)}
 
                   {/* Mobile services accordion */}
                   <div className="hospital-mobile-services">
                     <a
                       href="#services"
-                      onClick={(e) => {
-                        e.preventDefault();
+                      onClick={(event) => {
+                        event.preventDefault();
                         scrollToAnchor("services");
                       }}
                       className={`hospital-mobile-services__heading ${
@@ -553,7 +597,9 @@ export default function Navbar({ onOpenBooking }) {
                           <a
                             key={service.id}
                             href="#services"
-                            onClick={(e) => handleServiceSelect(e, service)}
+                            onClick={(event) =>
+                              handleServiceSelect(event, service)
+                            }
                             className="hospital-mobile-service-link"
                           >
                             <Icon size={20} aria-hidden="true" />
@@ -565,12 +611,36 @@ export default function Navbar({ onOpenBooking }) {
                   </div>
 
                   {[
-                    { href: "#why-us", label: "Why Choose Us", id: "why-us" },
-                    { href: "#doctors", label: "Our Specialist Doctors", id: "doctors" },
-                    { href: "#gallery", label: "Hospital Facilities & Cabins", id: "gallery" },
-                    { href: "#testimonials", label: "Patient Reviews", id: "testimonials" },
-                    { href: "#faq", label: "Frequently Asked Questions", id: "faq" },
-                    { href: "#contact", label: "Contact & Location", id: "contact" },
+                    {
+                      href: "#why-us",
+                      label: "Why Choose Us",
+                      id: "why-us",
+                    },
+                    {
+                      href: "#doctors",
+                      label: "Our Specialist Doctors",
+                      id: "doctors",
+                    },
+                    {
+                      href: "#gallery",
+                      label: "Hospital Facilities & Cabins",
+                      id: "gallery",
+                    },
+                    {
+                      href: "#testimonials",
+                      label: "Patient Reviews",
+                      id: "testimonials",
+                    },
+                    {
+                      href: "#faq",
+                      label: "Frequently Asked Questions",
+                      id: "faq",
+                    },
+                    {
+                      href: "#contact",
+                      label: "Contact & Location",
+                      id: "contact",
+                    },
                   ].map(renderMobileLink)}
                 </div>
               </nav>
@@ -616,7 +686,9 @@ export default function Navbar({ onOpenBooking }) {
                     className="shrink-0 text-brand-blue"
                     aria-hidden="true"
                   />
-                  <span>H NO: 3, FRS ROAD, Sangareddy, Telangana</span>
+                  <span>
+                    H NO: 3, FRS ROAD, Sangareddy, Telangana
+                  </span>
                 </div>
 
                 <div className="hospital-mobile-drawer__detail">
@@ -625,7 +697,9 @@ export default function Navbar({ onOpenBooking }) {
                     className="shrink-0 text-brand-blue"
                     aria-hidden="true"
                   />
-                  <span>Mon–Sat: 9AM–6PM | Sunday: Emergency 24/7</span>
+                  <span>
+                    Mon–Sat: 9AM–6PM | Sunday: Emergency 24/7
+                  </span>
                 </div>
               </div>
             </motion.div>
